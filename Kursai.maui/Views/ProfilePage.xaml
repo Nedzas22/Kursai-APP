@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.ProfilePage"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+    <ScrollView>
+        <VerticalStackLayout Padding="0" Spacing="0">
+
+            <!-- Premium Profile Header -->
+            <Frame CornerRadius="0,0,32,32"
+                   BackgroundColor="{StaticResource Primary}"
+                   Padding="24,40,24,32"
+                   HasShadow="False">
+                <Grid RowDefinitions="Auto,Auto,Auto" 
+                      ColumnDefinitions="Auto,*"
+                      RowSpacing="12">
+                    
+                    <!-- Avatar -->
+                    <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                           CornerRadius="28"
+                           WidthRequest="88"
+                           HeightRequest="88"
+                           Padding="0"
+                           HasShadow="False"
+                           Margin="0,0,20,0"
+                           Background="{StaticResource AccentGradient}">
+                        <Label Text="{Binding UserInitial}"
+                               FontSize="40"
+                               TextColor="{StaticResource TextOnAccent}"
+                               FontFamily="OpenSansSemibold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+
+                    <!-- User Name -->
+                    <Label Grid.Row="0" Grid.Column="1"
+                           Text="{Binding Username}"
+                           FontSize="26"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextOnPrimary}"
+                           VerticalOptions="End"/>
+                    
+                    <!-- Email -->
+                    <Label Grid.Row="1" Grid.Column="1"
+                           Text="{Binding Email}"
+                           FontSize="15"
+                           TextColor="{StaticResource Accent}"
+                           VerticalOptions="Start"
+                           Margin="0,4,0,0"/>
+                    
+                    <!-- Stats -->
+                    <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                          Spacing="24"
+                                          Margin="0,16,0,0">
+                        <Frame BackgroundColor="{StaticResource PrimaryLight}"
+                               Padding="16,12"
+                               CornerRadius="16"
+                               HasShadow="False">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="📚"
+                                       FontSize="20"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding CoursesCreated}"
+                                       FontSize="22"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextOnPrimary}"
+                                       VerticalOptions="Center"/>
+                                <Label Text="Courses"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Accent}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                        
+                        <Frame BackgroundColor="{StaticResource PrimaryLight}"
+                               Padding="16,12"
+                               CornerRadius="16"
+                               HasShadow="False">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="♥"
+                                       FontSize="20"
+                                       TextColor="{StaticResource Accent}"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding FavoritesCount}"
+                                       FontSize="22"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextOnPrimary}"
+                                       VerticalOptions="Center"/>
+                                <Label Text="Saved"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Accent}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- Content Section -->
+            <VerticalStackLayout Padding="24,24" Spacing="16">
+                
+                <!-- Quick Action - Create Course -->
+                <Frame Style="{StaticResource CardFrame}"
+                       Padding="24"
+                       Background="{StaticResource AccentGradient}">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddCourseCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="{StaticResource TextOnAccent}"
+                               CornerRadius="16"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="56"
+                               HeightRequest="56"
+                               Margin="0,0,16,0">
+                            <Label Text="+"
+                                   FontSize="32"
+                                   TextColor="{StaticResource Accent}"
+                                   FontFamily="OpenSansSemibold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" 
+                                            VerticalOptions="Center"
+                                            Spacing="4">
+                            <Label Text="Create New Course"
+                                   FontSize="18"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource TextOnAccent}"/>
+                            <Label Text="Share your knowledge"
+                                   FontSize="13"
+                                   TextColor="{StaticResource TextOnAccent}"
+                                   Opacity="0.8"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2"
+                               Text="›"
+                               FontSize="32"
+                               TextColor="{StaticResource TextOnAccent}"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Menu Items -->
+                <Label Text="Course Management"
+                       FontSize="16"
+                       FontFamily="OpenSansSemibold"
+                       TextColor="{StaticResource TextSecondary}"
+                       Margin="4,16,0,8"/>
+
+                <Frame Style="{StaticResource CardFrame}" Padding="0">
+                    <VerticalStackLayout Spacing="0">
+                        
+                        <!-- My Courses -->
+                        <Frame Padding="20" 
+                               CornerRadius="20" 
+                               HasShadow="False" 
+                               BackgroundColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewMyCoursesCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Frame Grid.Column="0"
+                                       BackgroundColor="{StaticResource SurfaceVariant}"
+                                       CornerRadius="12"
+                                       Padding="0"
+                                       HasShadow="False"
+                                       WidthRequest="44"
+                                       HeightRequest="44"
+                                       Margin="0,0,16,0">
+                                    <Label Text="📖"
+                                           FontSize="20"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                                <Label Grid.Column="1"
+                                       Text="My Created Courses"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="2"
+                                       Text="›"
+                                       FontSize="24"
+                                       TextColor="{StaticResource TextTertiary}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+
+                        <BoxView HeightRequest="1" 
+                                Color="{StaticResource BorderLight}" 
+                                Margin="20,0"/>
+
+                        <!-- My Library -->
+                        <Frame Padding="20" 
+                               CornerRadius="20" 
+                               HasShadow="False" 
+                               BackgroundColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewLibraryCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Frame Grid.Column="0"
+                                       Background="{StaticResource AccentGradient}"
+                                       CornerRadius="12"
+                                       Padding="0"
+                                       HasShadow="False"
+                                       WidthRequest="44"
+                                       HeightRequest="44"
+                                       Margin="0,0,16,0">
+                                    <Label Text="♥"
+                                           FontSize="20"
+                                           TextColor="{StaticResource TextOnAccent}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                                <Label Grid.Column="1"
+                                       Text="My Library"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="2"
+                                       Text="›"
+                                       FontSize="24"
+                                       TextColor="{StaticResource TextTertiary}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Logout Button -->
+                <Button Text="Sign Out"
+                        Command="{Binding LogoutCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        TextColor="{StaticResource Error}"
+                        BorderColor="{StaticResource Error}"
+                        Margin="0,24,0,32"/>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

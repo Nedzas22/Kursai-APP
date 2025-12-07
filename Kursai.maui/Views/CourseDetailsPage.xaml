@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.CourseDetailsPage"
+             Title=""
+             BackgroundColor="{StaticResource Background}">
+    
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Custom Header with Back Button -->
+        <Grid Grid.Row="0" 
+              Padding="20,12"
+              BackgroundColor="{StaticResource Surface}"
+              ColumnDefinitions="Auto,*">
+            <Frame Grid.Column="0"
+                   BackgroundColor="{StaticResource SurfaceVariant}"
+                   CornerRadius="12"
+                   Padding="0"
+                   HasShadow="False"
+                   WidthRequest="44"
+                   HeightRequest="44">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                </Frame.GestureRecognizers>
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Frame>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="0">
+                
+                <!-- Hero Image -->
+                <Frame Padding="0"
+                       CornerRadius="0,0,32,32"
+                       IsClippedToBounds="True"
+                       HasShadow="False"
+                       HeightRequest="280"
+                       BackgroundColor="{StaticResource SurfaceVariant}">
+                    <Image Source="{Binding Course.ImageUrl}"
+                           Aspect="AspectFill"/>
+                </Frame>
+
+                <!-- Content -->
+                <VerticalStackLayout Padding="24,24" Spacing="24">
+                    
+                    <!-- Title & Category -->
+                    <VerticalStackLayout Spacing="12">
+                        <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                               Padding="12,6"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               HorizontalOptions="Start">
+                            <Label Text="{Binding Course.Category}"
+                                   Style="{StaticResource Caption}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   FontFamily="OpenSansSemibold"/>
+                        </Frame>
+                        
+                        <Label Text="{Binding Course.Title}"
+                               Style="{StaticResource Headline1}"
+                               FontSize="28"
+                               LineBreakMode="WordWrap"/>
+                        
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="by"
+                                   Style="{StaticResource Caption}"/>
+                            <Label Text="{Binding Course.SellerName}"
+                                   Style="{StaticResource Caption}"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource Accent}"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Price Section -->
+                    <Frame Style="{StaticResource CardFrame}"
+                           Background="{StaticResource AccentGradient}"
+                           Padding="24">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="💰"
+                                   FontSize="32"
+                                   VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                                <Label Text="Course Price"
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextOnAccent}"
+                                       Opacity="0.8"/>
+                                <Label Text="{Binding Course.Price, StringFormat='${0:F2}'}"
+                                       FontSize="32"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextOnAccent}"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                    <!-- Description Section -->
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="About This Course"
+                               FontSize="20"
+                               FontFamily="OpenSansSemibold"
+                               TextColor="{StaticResource TextPrimary}"/>
+                        
+                        <Label Text="{Binding Course.Description}"
+                               FontSize="16"
+                               TextColor="{StaticResource TextSecondary}"
+                               LineBreakMode="WordWrap"
+                               LineHeight="1.5"/>
+                    </VerticalStackLayout>
+
+                    <!-- Action Buttons -->
+                    <VerticalStackLayout Spacing="12" Margin="0,8,0,32">
+                        
+                        <!-- Add to Favorites -->
+                        <Button Text="♥ Add to Library"
+                                Command="{Binding ToggleFavoriteCommand}"
+                                IsVisible="{Binding IsFavorite, Converter={StaticResource InvertedBoolConverter}}"
+                                HeightRequest="56">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+                                    <Setter Property="TextColor" Value="{StaticResource Accent}"/>
+                                    <Setter Property="BorderColor" Value="{StaticResource Accent}"/>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!-- Remove from Favorites -->
+                        <Button Text="♥ In Your Library"
+                                Command="{Binding ToggleFavoriteCommand}"
+                                IsVisible="{Binding IsFavorite}"
+                                Background="{StaticResource AccentGradient}"
+                                TextColor="{StaticResource TextOnAccent}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="16"
+                                CornerRadius="12"
+                                Padding="24,14"
+                                HeightRequest="56"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.LoginPage"
+             Title="Login"
+             BackgroundColor="{StaticResource Background}"
+             Shell.NavBarIsVisible="False">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="32,60,32,32" Spacing="32">
+            
+            <!-- Premium Logo/Branding -->
+            <VerticalStackLayout Spacing="16" Margin="0,20,0,40">
+                <Frame Background="{StaticResource PrimaryGradient}"
+                       CornerRadius="28"
+                       WidthRequest="88"
+                       HeightRequest="88"
+                       Padding="0"
+                       HasShadow="False"
+                       HorizontalOptions="Center">
+                    <Label Text="K"
+                           FontSize="48"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource Accent}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Frame>
+                
+                <Label Text="Welcome Back"
+                       Style="{StaticResource Headline1}"
+                       HorizontalOptions="Center"/>
+                
+                <Label Text="Sign in to continue your learning journey"
+                       Style="{StaticResource Subtitle}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Login Form -->
+            <VerticalStackLayout Spacing="20">
+                
+                <!-- Username Field -->
+                <Frame Padding="16,0" 
+                       CornerRadius="16" 
+                       HasShadow="False"
+                       BorderColor="{StaticResource Border}"
+                       BackgroundColor="{StaticResource Surface}">
+                    <Entry Text="{Binding Username}"
+                           Placeholder="Username"
+                           PlaceholderColor="{StaticResource TextTertiary}"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="Transparent"
+                           FontSize="16"
+                           HeightRequest="56"/>
+                </Frame>
+
+                <!-- Password Field -->
+                <Frame Padding="16,0" 
+                       CornerRadius="16" 
+                       HasShadow="False"
+                       BorderColor="{StaticResource Border}"
+                       BackgroundColor="{StaticResource Surface}">
+                    <Entry Text="{Binding Password}"
+                           Placeholder="Password"
+                           PlaceholderColor="{StaticResource TextTertiary}"
+                           TextColor="{StaticResource TextPrimary}"
+                           IsPassword="True"
+                           BackgroundColor="Transparent"
+                           FontSize="16"
+                           HeightRequest="56"/>
+                </Frame>
+
+                <!-- Error Message -->
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{StaticResource Error}"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                       FontSize="14"
+                       Margin="4,0"/>
+
+                <!-- Sign In Button -->
+                <Button Text="Sign In"
+                        Command="{Binding LoginCommand}"
+                        Style="{StaticResource AccentButton}"
+                        FontSize="17"
+                        HeightRequest="56"
+                        Margin="0,16,0,0"/>
+
+                <!-- Register Link -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Margin="0,16">
+                    <Label Text="Don't have an account?"
+                           Style="{StaticResource Subtitle}"
+                           FontSize="15"/>
+                    <Label Text="Sign Up"
+                           FontSize="15"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource Accent}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToRegisterCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Activity Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                              IsVisible="{Binding IsBusy}"
+                              Color="{StaticResource Accent}"
+                              WidthRequest="48"
+                              HeightRequest="48"
+                              HorizontalOptions="Center"
+                              Margin="0,20"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

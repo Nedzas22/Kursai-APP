@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.ShopPage"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+    
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
+        
+        <!-- Premium Header with Search -->
+        <Frame Grid.Row="0" 
+               CornerRadius="0,0,32,32"
+               BackgroundColor="{StaticResource Surface}"
+               Padding="24,16,24,24"
+               HasShadow="False">
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Discover Courses"
+                       Style="{StaticResource Headline2}"
+                       Margin="0,8,0,0"/>
+                
+                <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                       CornerRadius="16"
+                       Padding="0"
+                       HasShadow="False"
+                       HeightRequest="52">
+                    <SearchBar Text="{Binding SearchText}"
+                               Placeholder="Search for courses..."
+                               BackgroundColor="Transparent"
+                               PlaceholderColor="{StaticResource TextTertiary}"
+                               TextColor="{StaticResource TextPrimary}"/>
+                </Frame>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Courses List -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding LoadCoursesCommand}"
+                     IsRefreshing="{Binding IsBusy}"
+                     RefreshColor="{StaticResource Primary}">
+            <CollectionView ItemsSource="{Binding Courses}"
+                            SelectionMode="None"
+                            Margin="16,16,16,0">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Spacing="16"
+                                        Padding="40">
+                        <Label Text="🔍"
+                               FontSize="64"
+                               HorizontalOptions="Center"/>
+                        <Label Text="No courses found"
+                               Style="{StaticResource Headline2}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Try adjusting your search"
+                               Style="{StaticResource Subtitle}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource CardFrame}"
+                               Padding="0"
+                               Margin="0,0,0,16">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CourseTappedCommand}"
+                                                     CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            
+                            <Grid ColumnDefinitions="140,*,Auto" 
+                                  RowDefinitions="*"
+                                  ColumnSpacing="16">
+                                
+                                <!-- Course Image -->
+                                <Frame Grid.Column="0"
+                                       WidthRequest="140"
+                                       HeightRequest="140"
+                                       CornerRadius="20"
+                                       Padding="0"
+                                       IsClippedToBounds="True"
+                                       HasShadow="False"
+                                       BackgroundColor="{StaticResource SurfaceVariant}">
+                                    <Image Source="{Binding ImageUrl}"
+                                           Aspect="AspectFill"/>
+                                </Frame>
+
+                                <!-- Course Info -->
+                                <VerticalStackLayout Grid.Column="1"
+                                                    Padding="0,16"
+                                                    Spacing="8"
+                                                    VerticalOptions="Center">
+                                    <Label Text="{Binding Title}"
+                                           FontSize="18"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"/>
+                                    
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                                               Padding="8,4"
+                                               CornerRadius="8"
+                                               HasShadow="False">
+                                            <Label Text="{Binding Category}"
+                                                   Style="{StaticResource Caption}"
+                                                   TextColor="{StaticResource TextSecondary}"/>
+                                        </Frame>
+                                    </HorizontalStackLayout>
+                                    
+                                    <Label Text="{Binding SellerName, StringFormat='by {0}'}"
+                                           Style="{StaticResource Caption}"
+                                           TextColor="{StaticResource TextTertiary}"/>
+                                    
+                                    <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                           FontSize="22"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource Accent}"
+                                           Margin="0,4,0,0"/>
+                                </VerticalStackLayout>
+
+                                <!-- Favorite Button -->
+                                <VerticalStackLayout Grid.Column="2"
+                                                    VerticalOptions="Center"
+                                                    Spacing="12"
+                                                    Padding="16">
+                                    <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                                           CornerRadius="12"
+                                           Padding="0"
+                                           HasShadow="False"
+                                           WidthRequest="48"
+                                           HeightRequest="48">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleFavoriteCommand}"
+                                                                 CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Label Text="♥"
+                                               FontSize="20"
+                                               TextColor="{StaticResource Accent}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"/>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>
+

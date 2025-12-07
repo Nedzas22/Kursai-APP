@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.KursaiPage"
+             Title="{Binding Title}">
+    
+    <Grid RowDefinitions="Auto,*">
+        <Button Text="Add Course"
+                Grid.Row="0"
+                Command="{Binding AddCourseCommand}"
+                Margin="10"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"/>
+
+        <RefreshView Grid.Row="1"
+                     Command="{Binding LoadCoursesCommand}"
+                     IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Courses}"
+                           SelectionMode="Single"
+                           SelectedItem="{Binding SelectedCourse}"
+                           SelectionChangedCommand="{Binding CourseSelectedCommand}"
+                           SelectionChangedCommandParameter="{Binding SelectedCourse}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10" ColumnDefinitions="Auto,*,Auto">
+                            <Frame Grid.Column="0"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   IsClippedToBounds="True"
+                                   HasShadow="False">
+                                <Image Source="{Binding ImageUrl}"
+                                       Aspect="AspectFill"/>
+                            </Frame>
+
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0" VerticalOptions="Center">
+                                <Label Text="{Binding Title}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Category}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                                <Label Text="{Binding SellerName, StringFormat='by {0}'}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="5">
+                                <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="End"/>
+                                <Button Text="Get Free"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PurchaseCourseCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        Padding="15,5"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

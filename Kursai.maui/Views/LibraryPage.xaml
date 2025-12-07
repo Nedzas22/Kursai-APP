@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.LibraryPage"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+    
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Premium Header -->
+        <Frame Grid.Row="0" 
+               CornerRadius="0,0,32,32"
+               BackgroundColor="{StaticResource Surface}"
+               Padding="24,16,24,24"
+               HasShadow="False">
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="♥"
+                       FontSize="28"
+                       TextColor="{StaticResource Accent}"
+                       VerticalOptions="Center"/>
+                <Label Text="My Library"
+                       Style="{StaticResource Headline2}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <!-- Library Content -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding LoadCoursesCommand}"
+                     IsRefreshing="{Binding IsBusy}"
+                     RefreshColor="{StaticResource Primary}"
+                     Margin="16,16,16,0">
+            <CollectionView ItemsSource="{Binding Courses}"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Spacing="20"
+                                        Padding="40">
+                        <Label Text="♥"
+                               FontSize="80"
+                               TextColor="{StaticResource Accent}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Your Library is Empty"
+                               Style="{StaticResource Headline2}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Start adding courses to your favorites from the Shop"
+                               Style="{StaticResource Subtitle}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,0,0,20"/>
+                        <Button Text="Browse Courses"
+                                Style="{StaticResource AccentButton}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LoadCoursesCommand}"
+                                WidthRequest="200"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource CardFrame}"
+                               Padding="0"
+                               Margin="0,0,0,16">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CourseTappedCommand}"
+                                                     CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            
+                            <Grid ColumnDefinitions="120,*,Auto" 
+                                  RowDefinitions="*"
+                                  ColumnSpacing="16">
+                                
+                                <!-- Course Image -->
+                                <Frame Grid.Column="0"
+                                       WidthRequest="120"
+                                       HeightRequest="120"
+                                       CornerRadius="20"
+                                       Padding="0"
+                                       IsClippedToBounds="True"
+                                       HasShadow="False"
+                                       BackgroundColor="{StaticResource SurfaceVariant}">
+                                    <Image Source="{Binding ImageUrl}"
+                                           Aspect="AspectFill"/>
+                                </Frame>
+
+                                <!-- Course Info -->
+                                <VerticalStackLayout Grid.Column="1"
+                                                    Padding="0,16"
+                                                    Spacing="8"
+                                                    VerticalOptions="Center">
+                                    <Label Text="{Binding Title}"
+                                           FontSize="17"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"/>
+                                    
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                                               Padding="8,4"
+                                               CornerRadius="8"
+                                               HasShadow="False">
+                                            <Label Text="{Binding Category}"
+                                                   Style="{StaticResource Caption}"
+                                                   TextColor="{StaticResource TextSecondary}"/>
+                                        </Frame>
+                                    </HorizontalStackLayout>
+                                    
+                                    <Label Text="{Binding SellerName, StringFormat='by {0}'}"
+                                           Style="{StaticResource Caption}"
+                                           TextColor="{StaticResource TextTertiary}"/>
+                                </VerticalStackLayout>
+
+                                <!-- Favorite Indicator -->
+                                <Frame Grid.Column="2"
+                                       BackgroundColor="{StaticResource Accent}"
+                                       CornerRadius="12"
+                                       Padding="0"
+                                       HasShadow="False"
+                                       WidthRequest="48"
+                                       HeightRequest="48"
+                                       VerticalOptions="Center"
+                                       Margin="16">
+                                    <Label Text="♥"
+                                           FontSize="20"
+                                           TextColor="{StaticResource TextOnAccent}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>
+

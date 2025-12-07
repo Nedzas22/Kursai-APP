@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.AddKursai"
+             Title="Add Course">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Add New Course"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20"/>
+
+            <Entry Placeholder="Course Title"
+                   Text="{Binding CourseTitle}"/>
+
+            <Editor Placeholder="Description"
+                    Text="{Binding Description}"
+                    HeightRequest="100"/>
+
+            <Entry Placeholder="Price"
+                   Text="{Binding Price}"
+                   Keyboard="Numeric"/>
+
+            <Entry Placeholder="Category"
+                   Text="{Binding Category}"/>
+
+            <Button Text="Save Course"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="#512BD4"
+                    TextColor="White"
+                    Margin="0,20,0,0"/>
+
+            <Button Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#512BD4"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

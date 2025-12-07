@@ -3,12 +3,30 @@
     x:Class="Kursai.maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Kursai.maui"
+    xmlns:views="clr-namespace:Kursai.maui.Views"
     Title="Kursai.maui">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False"
+        Shell.TabBarIsVisible="False" />
+
+    <TabBar Route="MainTabs" x:Name="MainTabs"
+            Shell.FlyoutBehavior="Disabled">
+        <Tab Title="Shop" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ShopPage}" 
+                         Route="ShopPage"/>
+        </Tab>
+        <Tab Title="Library" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate views:LibraryPage}" 
+                         Route="LibraryPage"/>
+        </Tab>
+        <Tab Title="Profile" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" 
+                         Route="ProfilePageTab"/>
+        </Tab>
+    </TabBar>
 
 </Shell>
