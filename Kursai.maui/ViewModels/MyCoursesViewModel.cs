@@ -29,8 +29,6 @@ namespace Kursai.maui.ViewModels
             EditCourseCommand = new Command<Course>(async (course) => await EditCourseAsync(course));
             DeleteCourseCommand = new Command<Course>(async (course) => await DeleteCourseAsync(course));
             BackCommand = new Command(async () => await GoBackAsync());
-
-            LoadCoursesAsync();
         }
 
         private async Task GoBackAsync()

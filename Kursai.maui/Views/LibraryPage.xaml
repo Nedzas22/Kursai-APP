@@ -3,23 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kursai.maui.Views.LibraryPage"
              Title="{Binding Title}"
-             BackgroundColor="{StaticResource BackgroundDark}">
+             BackgroundColor="{StaticResource Background}">
     
     <Grid RowDefinitions="Auto,*">
         
         <!-- Premium Header -->
         <Frame Grid.Row="0" 
                CornerRadius="0,0,32,32"
-               BackgroundColor="{StaticResource Surface}"
-               Padding="24,16,24,24"
-               HasShadow="False">
+               Background="{StaticResource PrimaryGradient}"
+               Padding="24,20,24,24"
+               HasShadow="True"
+               BorderColor="Transparent">
             <HorizontalStackLayout Spacing="12">
                 <Label Text="♥"
-                       FontSize="28"
-                       TextColor="{StaticResource Accent}"
+                       FontSize="32"
+                       TextColor="{StaticResource TextOnPrimary}"
                        VerticalOptions="Center"/>
                 <Label Text="My Library"
-                       Style="{StaticResource Headline2}"
+                       FontSize="28"
+                       FontFamily="OpenSansSemibold"
+                       TextColor="{StaticResource TextOnPrimary}"
                        VerticalOptions="Center"/>
             </HorizontalStackLayout>
         </Frame>
@@ -35,32 +38,40 @@
                 <CollectionView.EmptyView>
                     <VerticalStackLayout HorizontalOptions="Center"
                                         VerticalOptions="Center"
-                                        Spacing="20"
+                                        Spacing="24"
                                         Padding="40">
                         <Label Text="♥"
-                               FontSize="80"
-                               TextColor="{StaticResource Accent}"
+                               FontSize="96"
+                               TextColor="{StaticResource Primary}"
                                HorizontalOptions="Center"/>
                         <Label Text="Your Library is Empty"
-                               Style="{StaticResource Headline2}"
+                               FontSize="26"
+                               FontFamily="OpenSansSemibold"
+                               TextColor="{StaticResource TextPrimary}"
                                HorizontalOptions="Center"/>
                         <Label Text="Start adding courses to your favorites from the Shop"
-                               Style="{StaticResource Subtitle}"
+                               FontSize="16"
+                               TextColor="{StaticResource TextSecondary}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"
-                               Margin="0,0,0,20"/>
+                               LineBreakMode="WordWrap"
+                               Margin="20,0"/>
                         <Button Text="Browse Courses"
-                                Style="{StaticResource AccentButton}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LoadCoursesCommand}"
-                                WidthRequest="200"/>
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource TextOnPrimary}"
+                                CornerRadius="12"
+                                HeightRequest="52"
+                                WidthRequest="200"
+                                Margin="0,16,0,0"/>
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
                 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Style="{StaticResource CardFrame}"
-                               Padding="0"
-                               Margin="0,0,0,16">
+                               Padding="16"
+                               Margin="0,0,0,16"
+                               BorderColor="{StaticResource Border}">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CourseTappedCommand}"
                                                      CommandParameter="{Binding .}"/>
@@ -74,56 +85,58 @@
                                 <Frame Grid.Column="0"
                                        WidthRequest="120"
                                        HeightRequest="120"
-                                       CornerRadius="20"
+                                       CornerRadius="16"
                                        Padding="0"
                                        IsClippedToBounds="True"
                                        HasShadow="False"
-                                       BackgroundColor="{StaticResource SurfaceVariant}">
+                                       BackgroundColor="{StaticResource SurfaceVariant}"
+                                       BorderColor="Transparent">
                                     <Image Source="{Binding ImageUrl}"
                                            Aspect="AspectFill"/>
                                 </Frame>
 
                                 <!-- Course Info -->
                                 <VerticalStackLayout Grid.Column="1"
-                                                    Padding="0,16"
-                                                    Spacing="8"
+                                                    Padding="0,8"
+                                                    Spacing="10"
                                                     VerticalOptions="Center">
                                     <Label Text="{Binding Title}"
-                                           FontSize="17"
+                                           FontSize="18"
                                            FontFamily="OpenSansSemibold"
                                            TextColor="{StaticResource TextPrimary}"
                                            LineBreakMode="TailTruncation"
                                            MaxLines="2"/>
                                     
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Frame BackgroundColor="{StaticResource SurfaceVariant}"
-                                               Padding="8,4"
-                                               CornerRadius="8"
-                                               HasShadow="False">
-                                            <Label Text="{Binding Category}"
-                                                   Style="{StaticResource Caption}"
-                                                   TextColor="{StaticResource TextSecondary}"/>
-                                        </Frame>
-                                    </HorizontalStackLayout>
+                                    <Frame BackgroundColor="{StaticResource SurfaceVariant}"
+                                           Padding="10,6"
+                                           CornerRadius="8"
+                                           HasShadow="False"
+                                           HorizontalOptions="Start"
+                                           BorderColor="Transparent">
+                                        <Label Text="{Binding Category}"
+                                               FontSize="12"
+                                               FontFamily="OpenSansSemibold"
+                                               TextColor="{StaticResource Primary}"/>
+                                    </Frame>
                                     
                                     <Label Text="{Binding SellerName, StringFormat='by {0}'}"
-                                           Style="{StaticResource Caption}"
+                                           FontSize="13"
                                            TextColor="{StaticResource TextTertiary}"/>
                                 </VerticalStackLayout>
 
                                 <!-- Favorite Indicator -->
                                 <Frame Grid.Column="2"
-                                       BackgroundColor="{StaticResource Accent}"
-                                       CornerRadius="12"
+                                       Background="{StaticResource PrimaryGradient}"
+                                       CornerRadius="14"
                                        Padding="0"
                                        HasShadow="False"
-                                       WidthRequest="48"
-                                       HeightRequest="48"
+                                       WidthRequest="56"
+                                       HeightRequest="56"
                                        VerticalOptions="Center"
-                                       Margin="16">
+                                       BorderColor="Transparent">
                                     <Label Text="♥"
-                                           FontSize="20"
-                                           TextColor="{StaticResource TextOnAccent}"
+                                           FontSize="28"
+                                           TextColor="{StaticResource TextOnPrimary}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                 </Frame>

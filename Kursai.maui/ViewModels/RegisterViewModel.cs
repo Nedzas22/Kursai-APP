@@ -72,6 +72,12 @@ namespace Kursai.maui.ViewModels
                 return;
             }
 
+            if (Password.Length < 6)
+            {
+                ErrorMessage = "Password must be at least 6 characters long";
+                return;
+            }
+
             IsBusy = true;
 
             try
@@ -84,12 +90,14 @@ namespace Kursai.maui.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Username or email already exists";
+                    ErrorMessage = "Username or email already exists. Please try different credentials.";
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Error: {ex.Message}";
+                // Show the actual error message from the API service
+                ErrorMessage = ex.Message;
+                System.Diagnostics.Debug.WriteLine($"Registration exception: {ex}");
             }
             finally
             {

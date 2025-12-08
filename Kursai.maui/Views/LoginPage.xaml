@@ -10,28 +10,32 @@
         <VerticalStackLayout Padding="32,60,32,32" Spacing="32">
             
             <!-- Premium Logo/Branding -->
-            <VerticalStackLayout Spacing="16" Margin="0,20,0,40">
+            <VerticalStackLayout Spacing="20" Margin="0,20,0,40">
                 <Frame Background="{StaticResource PrimaryGradient}"
-                       CornerRadius="28"
-                       WidthRequest="88"
-                       HeightRequest="88"
+                       CornerRadius="32"
+                       WidthRequest="96"
+                       HeightRequest="96"
                        Padding="0"
-                       HasShadow="False"
-                       HorizontalOptions="Center">
+                       HasShadow="True"
+                       HorizontalOptions="Center"
+                       BorderColor="Transparent">
                     <Label Text="K"
-                           FontSize="48"
+                           FontSize="56"
                            FontFamily="OpenSansSemibold"
-                           TextColor="{StaticResource Accent}"
+                           TextColor="{StaticResource TextOnPrimary}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
                 </Frame>
                 
                 <Label Text="Welcome Back"
-                       Style="{StaticResource Headline1}"
+                       FontSize="32"
+                       FontFamily="OpenSansSemibold"
+                       TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center"/>
                 
                 <Label Text="Sign in to continue your learning journey"
-                       Style="{StaticResource Subtitle}"
+                       FontSize="16"
+                       TextColor="{StaticResource TextSecondary}"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
@@ -40,7 +44,7 @@
             <VerticalStackLayout Spacing="20">
                 
                 <!-- Username Field -->
-                <Frame Padding="16,0" 
+                <Frame Padding="20,0" 
                        CornerRadius="16" 
                        HasShadow="False"
                        BorderColor="{StaticResource Border}"
@@ -55,7 +59,7 @@
                 </Frame>
 
                 <!-- Password Field -->
-                <Frame Padding="16,0" 
+                <Frame Padding="20,0" 
                        CornerRadius="16" 
                        HasShadow="False"
                        BorderColor="{StaticResource Border}"
@@ -75,25 +79,29 @@
                        TextColor="{StaticResource Error}"
                        IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmptyConverter}}"
                        FontSize="14"
+                       FontFamily="OpenSansSemibold"
                        Margin="4,0"/>
 
                 <!-- Sign In Button -->
                 <Button Text="Sign In"
                         Command="{Binding LoginCommand}"
-                        Style="{StaticResource AccentButton}"
-                        FontSize="17"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource TextOnPrimary}"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="18"
                         HeightRequest="56"
+                        CornerRadius="16"
                         Margin="0,16,0,0"/>
 
                 <!-- Register Link -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Margin="0,16">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Margin="0,20">
                     <Label Text="Don't have an account?"
-                           Style="{StaticResource Subtitle}"
-                           FontSize="15"/>
+                           FontSize="15"
+                           TextColor="{StaticResource TextSecondary}"/>
                     <Label Text="Sign Up"
                            FontSize="15"
                            FontFamily="OpenSansSemibold"
-                           TextColor="{StaticResource Accent}">
+                           TextColor="{StaticResource Primary}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToRegisterCommand}"/>
                         </Label.GestureRecognizers>
@@ -104,7 +112,7 @@
             <!-- Activity Indicator -->
             <ActivityIndicator IsRunning="{Binding IsBusy}"
                               IsVisible="{Binding IsBusy}"
-                              Color="{StaticResource Accent}"
+                              Color="{StaticResource Primary}"
                               WidthRequest="48"
                               HeightRequest="48"
                               HorizontalOptions="Center"

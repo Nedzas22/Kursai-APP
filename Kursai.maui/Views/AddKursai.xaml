@@ -2,40 +2,196 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kursai.maui.Views.AddKursai"
-             Title="Add Course">
+             Title="Add Course"
+             BackgroundColor="{StaticResource Background}">
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="24,32" Spacing="24">
             
-            <Label Text="Add New Course"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,20"/>
+            <!-- Header -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Create New Course"
+                       FontSize="32"
+                       FontFamily="OpenSansSemibold"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center"/>
+                <Label Text="Share your knowledge with students"
+                       FontSize="16"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
 
-            <Entry Placeholder="Course Title"
-                   Text="{Binding CourseTitle}"/>
+            <!-- Course Form -->
+            <VerticalStackLayout Spacing="20">
+                
+                <!-- Course Image Picker -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Course Image"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    
+                    <Frame Style="{StaticResource CardFrame}"
+                           Padding="16"
+                           HeightRequest="200"
+                           BackgroundColor="{StaticResource Surface}">
+                        <Grid>
+                            <!-- Default placeholder or selected image -->
+                            <Image Source="{Binding SelectedImageSource}"
+                                   Aspect="AspectFill"
+                                   IsVisible="{Binding SelectedImageSource, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
+                            
+                            <!-- Placeholder when no image selected -->
+                            <VerticalStackLayout HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                Spacing="12"
+                                                IsVisible="{Binding SelectedImageSource, Converter={StaticResource InvertedBoolConverter}}">
+                                <Label Text="📷"
+                                       FontSize="48"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="No image selected"
+                                       FontSize="14"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                    
+                    <!-- Select Image Button -->
+                    <Button Text="Select Image from Device"
+                            Command="{Binding SelectImageCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            HeightRequest="48"/>
+                </VerticalStackLayout>
 
-            <Editor Placeholder="Description"
-                    Text="{Binding Description}"
-                    HeightRequest="100"/>
+                <!-- Course Title -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Course Title"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    <Frame Padding="16,0" 
+                           CornerRadius="12" 
+                           HasShadow="False"
+                           BorderColor="{StaticResource Border}"
+                           BackgroundColor="{StaticResource Surface}">
+                        <Entry Text="{Binding CourseTitle}"
+                               Placeholder="Enter course title"
+                               PlaceholderColor="{StaticResource TextTertiary}"
+                               TextColor="{StaticResource TextPrimary}"
+                               BackgroundColor="Transparent"
+                               FontSize="16"
+                               HeightRequest="52"/>
+                    </Frame>
+                </VerticalStackLayout>
 
-            <Entry Placeholder="Price"
-                   Text="{Binding Price}"
-                   Keyboard="Numeric"/>
+                <!-- Description -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Description"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    <Frame Padding="16" 
+                           CornerRadius="12" 
+                           HasShadow="False"
+                           BorderColor="{StaticResource Border}"
+                           BackgroundColor="{StaticResource Surface}">
+                        <Editor Text="{Binding Description}"
+                                Placeholder="Describe your course..."
+                                PlaceholderColor="{StaticResource TextTertiary}"
+                                TextColor="{StaticResource TextPrimary}"
+                                BackgroundColor="Transparent"
+                                FontSize="16"
+                                HeightRequest="120"
+                                AutoSize="TextChanges"/>
+                    </Frame>
+                </VerticalStackLayout>
 
-            <Entry Placeholder="Category"
-                   Text="{Binding Category}"/>
+                <!-- Category Picker -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Category"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    <Frame Padding="16,0" 
+                           CornerRadius="12" 
+                           HasShadow="False"
+                           BorderColor="{StaticResource Border}"
+                           BackgroundColor="{StaticResource Surface}">
+                        <Picker ItemsSource="{Binding Categories}"
+                                SelectedItem="{Binding SelectedCategory}"
+                                Title="Select a category"
+                                TextColor="{StaticResource TextPrimary}"
+                                TitleColor="{StaticResource TextTertiary}"
+                                BackgroundColor="Transparent"
+                                FontSize="16"
+                                HeightRequest="52"
+                                VerticalOptions="Center"/>
+                    </Frame>
+                </VerticalStackLayout>
 
-            <Button Text="Save Course"
-                    Command="{Binding SaveCommand}"
-                    BackgroundColor="#512BD4"
-                    TextColor="White"
-                    Margin="0,20,0,0"/>
+                <!-- Price -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Price (USD)"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    <Frame Padding="16,0" 
+                           CornerRadius="12" 
+                           HasShadow="False"
+                           BorderColor="{StaticResource Border}"
+                           BackgroundColor="{StaticResource Surface}">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Label Grid.Column="0"
+                                   Text="$"
+                                   FontSize="20"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,8,0"/>
+                            <Entry Grid.Column="1"
+                                   Text="{Binding Price}"
+                                   Placeholder="0.00"
+                                   PlaceholderColor="{StaticResource TextTertiary}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   BackgroundColor="Transparent"
+                                   Keyboard="Numeric"
+                                   FontSize="16"
+                                   HeightRequest="52"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>
 
-            <Button Text="Cancel"
-                    Command="{Binding CancelCommand}"
-                    BackgroundColor="Transparent"
-                    TextColor="#512BD4"/>
+            </VerticalStackLayout>
+
+            <!-- Action Buttons -->
+            <VerticalStackLayout Spacing="12" Margin="0,16,0,0">
+                
+                <!-- Save Button -->
+                <Button Text="Create Course"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource TextOnPrimary}"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="18"
+                        HeightRequest="56"
+                        CornerRadius="16"/>
+
+                <!-- Cancel Button -->
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        HeightRequest="56"/>
+            </VerticalStackLayout>
+
+            <!-- Activity Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                              IsVisible="{Binding IsBusy}"
+                              Color="{StaticResource Primary}"
+                              WidthRequest="48"
+                              HeightRequest="48"
+                              HorizontalOptions="Center"
+                              Margin="0,16"/>
 
         </VerticalStackLayout>
     </ScrollView>

@@ -10,6 +10,5 @@ namespace Kursai.maui.Models
         public string SellerName { get; set; }
         public string Category { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string ImageUrl { get; set; }
     }
-}
+}}

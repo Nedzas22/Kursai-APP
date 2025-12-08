@@ -1,5 +1,6 @@
 using Kursai.maui.Models;
 using Kursai.maui.Services;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Kursai.maui.ViewModels
@@ -11,7 +12,44 @@ namespace Kursai.maui.ViewModels
         private string _courseTitle = string.Empty;
         private string _description = string.Empty;
         private string _price = string.Empty;
-        private string _category = string.Empty;
+        private string _selectedCategory = string.Empty;
+
+        public ObservableCollection<string> Categories { get; } = new ObservableCollection<string>
+        {
+            "Programming",
+            "Web Development",
+            "Mobile Development",
+            "Data Science",
+            "Machine Learning",
+            "Artificial Intelligence",
+            "Cybersecurity",
+            "Cloud Computing",
+            "DevOps",
+            "Database",
+            "Game Development",
+            "UI/UX Design",
+            "Graphic Design",
+            "Digital Marketing",
+            "Business",
+            "Finance",
+            "Accounting",
+            "Project Management",
+            "Leadership",
+            "Photography",
+            "Video Editing",
+            "Music Production",
+            "3D Modeling",
+            "Animation",
+            "Architecture",
+            "Engineering",
+            "Mathematics",
+            "Science",
+            "Language Learning",
+            "Personal Development",
+            "Health & Fitness",
+            "Cooking",
+            "Other"
+        };
 
         public string CourseTitle
         {
@@ -31,10 +69,10 @@ namespace Kursai.maui.ViewModels
             set => SetProperty(ref _price, value);
         }
 
-        public string Category
+        public string SelectedCategory
         {
-            get => _category;
-            set => SetProperty(ref _category, value);
+            get => _selectedCategory;
+            set => SetProperty(ref _selectedCategory, value);
         }
 
         public ICommand SaveCommand { get; }
@@ -47,44 +85,62 @@ namespace Kursai.maui.ViewModels
             Title = "Add Course";
 
             SaveCommand = new Command(async () => await SaveCourseAsync());
-            CancelCommand = new Command(async () => await Shell.Current.GoToAsync(".."));
+            CancelCommand = new Command(async () => await CancelAsync());
+            
+            // Set default category
+            SelectedCategory = Categories[0];
         }
 
         private async Task SaveCourseAsync()
         {
-            if (string.IsNullOrWhiteSpace(CourseTitle) || string.IsNullOrWhiteSpace(Price))
+            if (IsBusy) return;
+
+            if (string.IsNullOrWhiteSpace(CourseTitle) || string.IsNullOrWhiteSpace(Description) || 
+                string.IsNullOrWhiteSpace(Price) || string.IsNullOrWhiteSpace(SelectedCategory))
             {
-                await Shell.Current.DisplayAlertAsync("Error", "Title and Price are required", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", "All fields are required", "OK");
                 return;
             }
 
-            if (!decimal.TryParse(Price, out var price))
+            if (!decimal.TryParse(Price, out decimal priceValue) || priceValue < 0)
             {
-                await Shell.Current.DisplayAlertAsync("Error", "Invalid price format", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", "Please enter a valid price", "OK");
                 return;
             }
-
-            var user = await _authService.GetCurrentUserAsync();
-            if (user == null) return;
-
-            var course = new Course
-            {
-                Title = CourseTitle,
-                Description = Description ?? string.Empty,
-                Price = price,
-                Category = Category ?? "General",
-                SellerId = user.Id,
-                SellerName = user.Username,
-                ImageUrl = "dotnet_bot.png"
-            };
 
             IsBusy = true;
 
             try
             {
-                await _courseService.AddCourseAsync(course);
-                await Shell.Current.DisplayAlertAsync("Success", "Course added successfully!", "OK");
-                await Shell.Current.GoToAsync("..");
+                var user = await _authService.GetCurrentUserAsync();
+                if (user == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "You must be logged in", "OK");
+                    return;
+                }
+
+                var course = new Course
+                {
+                    Title = CourseTitle,
+                    Description = Description,
+                    Price = priceValue,
+                    Category = SelectedCategory,
+                    SellerId = user.Id,
+                    SellerName = user.Username
+                };
+
+                var success = await _courseService.AddCourseAsync(course);
+
+                if (success)
+                {
+                    await Shell.Current.DisplayAlertAsync("Success", "Course created successfully!", "OK");
+                    // Navigate back - this will trigger OnAppearing and reload the courses
+                    await Shell.Current.GoToAsync("..");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Failed to create course", "OK");
+                }
             }
             catch (Exception ex)
             {
@@ -94,6 +150,11 @@ namespace Kursai.maui.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private async Task CancelAsync()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

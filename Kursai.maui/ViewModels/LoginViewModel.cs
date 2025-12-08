@@ -63,12 +63,14 @@ namespace Kursai.maui.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Invalid username or password";
+                    ErrorMessage = "Invalid username or password. Please try again.";
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Error: {ex.Message}";
+                // Show the actual error message from the API service
+                ErrorMessage = ex.Message;
+                System.Diagnostics.Debug.WriteLine($"Login exception: {ex}");
             }
             finally
             {

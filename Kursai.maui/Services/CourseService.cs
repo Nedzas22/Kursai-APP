@@ -22,8 +22,7 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-10),
-                    ImageUrl = "dotnet_bot.png"
+                    CreatedAt = DateTime.Now.AddDays(-10)
                 },
                 new Course
                 {
@@ -34,8 +33,7 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-5),
-                    ImageUrl = "dotnet_bot.png"
+                    CreatedAt = DateTime.Now.AddDays(-5)
                 },
                 new Course
                 {
@@ -46,8 +44,7 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-3),
-                    ImageUrl = "dotnet_bot.png"
+                    CreatedAt = DateTime.Now.AddDays(-3)
                 }
             });
         }

@@ -3,34 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kursai.maui.Views.ProfilePage"
              Title="{Binding Title}"
-             BackgroundColor="{StaticResource BackgroundDark}">
+             BackgroundColor="{StaticResource Background}">
     <ScrollView>
         <VerticalStackLayout Padding="0" Spacing="0">
 
-            <!-- Premium Profile Header -->
+            <!-- Premium Profile Header with Gold Gradient -->
             <Frame CornerRadius="0,0,32,32"
-                   BackgroundColor="{StaticResource Primary}"
+                   Background="{StaticResource PrimaryGradient}"
                    Padding="24,40,24,32"
-                   HasShadow="False">
+                   HasShadow="True"
+                   BorderColor="Transparent">
                 <Grid RowDefinitions="Auto,Auto,Auto" 
                       ColumnDefinitions="Auto,*"
                       RowSpacing="12">
                     
-                    <!-- Avatar -->
+                    <!-- Avatar with Border -->
                     <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                           CornerRadius="28"
+                           CornerRadius="44"
                            WidthRequest="88"
                            HeightRequest="88"
-                           Padding="0"
+                           Padding="4"
                            HasShadow="False"
                            Margin="0,0,20,0"
-                           Background="{StaticResource AccentGradient}">
-                        <Label Text="{Binding UserInitial}"
-                               FontSize="40"
-                               TextColor="{StaticResource TextOnAccent}"
-                               FontFamily="OpenSansSemibold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                           BackgroundColor="{StaticResource Surface}"
+                           BorderColor="{StaticResource Surface}">
+                        <Frame CornerRadius="40"
+                               Padding="0"
+                               HasShadow="False"
+                               BackgroundColor="{StaticResource SurfaceVariant}">
+                            <Label Text="{Binding UserInitial}"
+                                   FontSize="40"
+                                   TextColor="{StaticResource Primary}"
+                                   FontFamily="OpenSansSemibold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
                     </Frame>
 
                     <!-- User Name -->
@@ -45,52 +52,59 @@
                     <Label Grid.Row="1" Grid.Column="1"
                            Text="{Binding Email}"
                            FontSize="15"
-                           TextColor="{StaticResource Accent}"
+                           TextColor="{StaticResource TextOnPrimary}"
+                           Opacity="0.8"
                            VerticalOptions="Start"
                            Margin="0,4,0,0"/>
                     
                     <!-- Stats -->
                     <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                          Spacing="24"
-                                          Margin="0,16,0,0">
-                        <Frame BackgroundColor="{StaticResource PrimaryLight}"
-                               Padding="16,12"
+                                          Spacing="16"
+                                          Margin="0,20,0,0">
+                        <Frame BackgroundColor="{StaticResource Surface}"
+                               Padding="20,12"
                                CornerRadius="16"
-                               HasShadow="False">
-                            <HorizontalStackLayout Spacing="8">
+                               HasShadow="False"
+                               HorizontalOptions="FillAndExpand">
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                                 <Label Text="📚"
-                                       FontSize="20"
+                                       FontSize="24"
                                        VerticalOptions="Center"/>
-                                <Label Text="{Binding CoursesCreated}"
-                                       FontSize="22"
-                                       FontFamily="OpenSansSemibold"
-                                       TextColor="{StaticResource TextOnPrimary}"
-                                       VerticalOptions="Center"/>
-                                <Label Text="Courses"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Accent}"
-                                       VerticalOptions="Center"/>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding CoursesCreated}"
+                                           FontSize="24"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="Courses"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </Frame>
                         
-                        <Frame BackgroundColor="{StaticResource PrimaryLight}"
-                               Padding="16,12"
+                        <Frame BackgroundColor="{StaticResource Surface}"
+                               Padding="20,12"
                                CornerRadius="16"
-                               HasShadow="False">
-                            <HorizontalStackLayout Spacing="8">
+                               HasShadow="False"
+                               HorizontalOptions="FillAndExpand">
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                                 <Label Text="♥"
-                                       FontSize="20"
-                                       TextColor="{StaticResource Accent}"
+                                       FontSize="24"
+                                       TextColor="{StaticResource Primary}"
                                        VerticalOptions="Center"/>
-                                <Label Text="{Binding FavoritesCount}"
-                                       FontSize="22"
-                                       FontFamily="OpenSansSemibold"
-                                       TextColor="{StaticResource TextOnPrimary}"
-                                       VerticalOptions="Center"/>
-                                <Label Text="Saved"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Accent}"
-                                       VerticalOptions="Center"/>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding FavoritesCount}"
+                                           FontSize="24"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="Saved"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </Frame>
                     </HorizontalStackLayout>
@@ -98,18 +112,19 @@
             </Frame>
 
             <!-- Content Section -->
-            <VerticalStackLayout Padding="24,24" Spacing="16">
+            <VerticalStackLayout Padding="20,24" Spacing="20">
                 
                 <!-- Quick Action - Create Course -->
                 <Frame Style="{StaticResource CardFrame}"
                        Padding="24"
-                       Background="{StaticResource AccentGradient}">
+                       Background="{StaticResource PrimaryGradient}"
+                       BorderColor="{StaticResource Primary}">
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding AddCourseCommand}"/>
                     </Frame.GestureRecognizers>
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <Frame Grid.Column="0"
-                               BackgroundColor="{StaticResource TextOnAccent}"
+                               BackgroundColor="{StaticResource Surface}"
                                CornerRadius="16"
                                Padding="0"
                                HasShadow="False"
@@ -117,8 +132,8 @@
                                HeightRequest="56"
                                Margin="0,0,16,0">
                             <Label Text="+"
-                                   FontSize="32"
-                                   TextColor="{StaticResource Accent}"
+                                   FontSize="36"
+                                   TextColor="{StaticResource Primary}"
                                    FontFamily="OpenSansSemibold"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"/>
@@ -129,35 +144,36 @@
                             <Label Text="Create New Course"
                                    FontSize="18"
                                    FontFamily="OpenSansSemibold"
-                                   TextColor="{StaticResource TextOnAccent}"/>
+                                   TextColor="{StaticResource TextOnPrimary}"/>
                             <Label Text="Share your knowledge"
                                    FontSize="13"
-                                   TextColor="{StaticResource TextOnAccent}"
+                                   TextColor="{StaticResource TextOnPrimary}"
                                    Opacity="0.8"/>
                         </VerticalStackLayout>
                         <Label Grid.Column="2"
                                Text="›"
                                FontSize="32"
-                               TextColor="{StaticResource TextOnAccent}"
+                               TextColor="{StaticResource TextOnPrimary}"
                                VerticalOptions="Center"/>
                     </Grid>
                 </Frame>
 
                 <!-- Menu Items -->
-                <Label Text="Course Management"
+                <Label Text="Manage Content"
                        FontSize="16"
                        FontFamily="OpenSansSemibold"
                        TextColor="{StaticResource TextSecondary}"
-                       Margin="4,16,0,8"/>
+                       Margin="4,8,0,8"/>
 
-                <Frame Style="{StaticResource CardFrame}" Padding="0">
+                <Frame Style="{StaticResource CardFrame}" Padding="0" BorderColor="{StaticResource Border}">
                     <VerticalStackLayout Spacing="0">
                         
                         <!-- My Courses -->
                         <Frame Padding="20" 
                                CornerRadius="20" 
                                HasShadow="False" 
-                               BackgroundColor="Transparent">
+                               BackgroundColor="Transparent"
+                               BorderColor="Transparent">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ViewMyCoursesCommand}"/>
                             </Frame.GestureRecognizers>
@@ -167,11 +183,12 @@
                                        CornerRadius="12"
                                        Padding="0"
                                        HasShadow="False"
-                                       WidthRequest="44"
-                                       HeightRequest="44"
-                                       Margin="0,0,16,0">
+                                       WidthRequest="48"
+                                       HeightRequest="48"
+                                       Margin="0,0,16,0"
+                                       BorderColor="Transparent">
                                     <Label Text="📖"
-                                           FontSize="20"
+                                           FontSize="24"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                 </Frame>
@@ -182,36 +199,38 @@
                                        VerticalOptions="Center"/>
                                 <Label Grid.Column="2"
                                        Text="›"
-                                       FontSize="24"
+                                       FontSize="28"
                                        TextColor="{StaticResource TextTertiary}"
                                        VerticalOptions="Center"/>
                             </Grid>
                         </Frame>
 
                         <BoxView HeightRequest="1" 
-                                Color="{StaticResource BorderLight}" 
+                                Color="{StaticResource Border}" 
                                 Margin="20,0"/>
 
                         <!-- My Library -->
                         <Frame Padding="20" 
                                CornerRadius="20" 
                                HasShadow="False" 
-                               BackgroundColor="Transparent">
+                               BackgroundColor="Transparent"
+                               BorderColor="Transparent">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ViewLibraryCommand}"/>
                             </Frame.GestureRecognizers>
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Frame Grid.Column="0"
-                                       Background="{StaticResource AccentGradient}"
+                                       Background="{StaticResource PrimaryGradient}"
                                        CornerRadius="12"
                                        Padding="0"
                                        HasShadow="False"
-                                       WidthRequest="44"
-                                       HeightRequest="44"
-                                       Margin="0,0,16,0">
+                                       WidthRequest="48"
+                                       HeightRequest="48"
+                                       Margin="0,0,16,0"
+                                       BorderColor="Transparent">
                                     <Label Text="♥"
-                                           FontSize="20"
-                                           TextColor="{StaticResource TextOnAccent}"
+                                           FontSize="24"
+                                           TextColor="{StaticResource TextOnPrimary}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                 </Frame>
@@ -222,7 +241,7 @@
                                        VerticalOptions="Center"/>
                                 <Label Grid.Column="2"
                                        Text="›"
-                                       FontSize="24"
+                                       FontSize="28"
                                        TextColor="{StaticResource TextTertiary}"
                                        VerticalOptions="Center"/>
                             </Grid>
@@ -230,13 +249,56 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- Logout Button -->
-                <Button Text="Sign Out"
-                        Command="{Binding LogoutCommand}"
-                        Style="{StaticResource SecondaryButton}"
-                        TextColor="{StaticResource Error}"
-                        BorderColor="{StaticResource Error}"
-                        Margin="0,24,0,32"/>
+                <!-- Logout Button - Prominent -->
+                <Frame Style="{StaticResource CardFrame}"
+                       Padding="0"
+                       BackgroundColor="{StaticResource Error}"
+                       BorderColor="{StaticResource Error}"
+                       Margin="0,24,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogoutCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid Padding="24" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="White"
+                               CornerRadius="12"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="48"
+                               HeightRequest="48"
+                               Margin="0,0,16,0"
+                               Opacity="0.9">
+                            <Label Text="🚪"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" 
+                                            VerticalOptions="Center"
+                                            Spacing="2">
+                            <Label Text="Sign Out"
+                                   FontSize="18"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="White"/>
+                            <Label Text="Logout from your account"
+                                   FontSize="13"
+                                   TextColor="White"
+                                   Opacity="0.8"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2"
+                               Text="›"
+                               FontSize="32"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Version Info -->
+                <Label Text="Version 1.0.0"
+                       FontSize="12"
+                       TextColor="{StaticResource TextTertiary}"
+                       HorizontalOptions="Center"
+                       Margin="0,16,0,32"/>
 
             </VerticalStackLayout>
         </VerticalStackLayout>

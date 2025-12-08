@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="Kursai.maui/Kursai.maui.csproj" />
+  <Project Path="Kursai.Api/Kursai.Api.csproj" />
+  <Project Path="Kursai.maui/Kursai.maui.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>

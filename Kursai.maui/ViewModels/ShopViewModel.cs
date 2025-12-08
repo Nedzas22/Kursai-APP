@@ -41,7 +41,8 @@ namespace Kursai.maui.ViewModels
             CourseTappedCommand = new Command<Course>(async (course) => await OnCourseTappedAsync(course));
             ToggleFavoriteCommand = new Command<Course>(async (course) => await ToggleFavoriteAsync(course));
 
-            LoadCoursesAsync();
+            // Don't load on initialization - let OnAppearing handle it
+            // This prevents double loading and ensures fresh data on navigation
         }
 
         private async Task LoadCoursesAsync()
