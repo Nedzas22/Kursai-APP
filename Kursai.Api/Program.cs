@@ -111,7 +111,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Initialize database
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
