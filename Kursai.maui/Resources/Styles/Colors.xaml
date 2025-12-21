@@ -42,7 +42,8 @@
     <Color x:Key="Warning">#F59E0B</Color>
     <Color x:Key="Error">#EF4444</Color>
     <Color x:Key="Info">#3B82F6</Color>
-    
+    <Color x:Key="TextOnInfo">#FFFFFF</Color>
+
     <!-- Shadow Color -->
     <Color x:Key="Shadow">#30000000</Color>
 
@@ -69,5 +70,45 @@
         <GradientStop Color="#000000" Offset="0.0" />
         <GradientStop Color="#1A1A1A" Offset="1.0" />
     </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FFD700" Offset="0.0" />
+        <GradientStop Color="#FFA500" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="SurfaceGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#2D2D2D" Offset="0.0" />
+        <GradientStop Color="#1A1A1A" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="SuccessGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#10B981" Offset="0.0" />
+        <GradientStop Color="#059669" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="InfoGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#3B82F6" Offset="0.0" />
+        <GradientStop Color="#2563EB" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="DangerGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#EF4444" Offset="0.0" />
+        <GradientStop Color="#DC2626" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="CardShimmerGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#1A1A1A" Offset="0.0" />
+        <GradientStop Color="#2D2D2D" Offset="0.5" />
+        <GradientStop Color="#1A1A1A" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Overlay Colors for depth -->
+    <Color x:Key="Overlay">#40000000</Color>
+    <Color x:Key="OverlayLight">#20000000</Color>
+    <Color x:Key="OverlayDark">#60000000</Color>
+    
+    <!-- Highlight Colors -->
+    <Color x:Key="Highlight">#FFD70020</Color>
+    <Color x:Key="HoverHighlight">#FFD70030</Color>
 
 </ResourceDictionary>

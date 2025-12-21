@@ -1,0 +1,10 @@
+namespace Kursai.maui.Views
+{
+    public partial class UIShowcasePage : ContentPage
+    {
+        public UIShowcasePage()
+        {
+            InitializeComponent();
+        }
+    }
+}

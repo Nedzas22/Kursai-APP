@@ -24,6 +24,17 @@ namespace Kursai.maui.Views
                 }
             }
         }
+
+        private void OnStarClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is string starValue)
+            {
+                if (int.TryParse(starValue, out int rating) && BindingContext is CourseDetailsViewModel vm)
+                {
+                    vm.SelectedRating = rating;
+                }
+            }
+        }
     }
 }
 

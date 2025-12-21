@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Kursai.Api.Data;
 using Kursai.Api.DTOs;
 using Kursai.Api.Models;
+using Kursai.Api.Services;
 using System.Security.Claims;
 
 namespace Kursai.Api.Controllers
@@ -14,10 +15,12 @@ namespace Kursai.Api.Controllers
     public class PurchasesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public PurchasesController(ApplicationDbContext context)
+        public PurchasesController(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         private int GetUserId()
@@ -35,6 +38,8 @@ namespace Kursai.Api.Controllers
                 .Where(p => p.UserId == userId)
                 .Include(p => p.Course)
                 .ThenInclude(c => c!.Seller)
+                .Include(p => p.Course)
+                .ThenInclude(c => c!.Ratings)
                 .OrderByDescending(p => p.PurchaseDate)
                 .Select(p => new CourseDto
                 {
@@ -45,8 +50,13 @@ namespace Kursai.Api.Controllers
                     SellerId = p.Course.SellerId,
                     SellerName = p.Course.Seller!.Username,
                     Category = p.Course.Category,
-                    ImageUrl = p.Course.ImageUrl,
-                    CreatedAt = p.Course.CreatedAt
+                    AttachmentFileName = p.Course.AttachmentFileName,
+                    AttachmentFileType = p.Course.AttachmentFileType,
+                    AttachmentFileSize = p.Course.AttachmentFileSize,
+                    AttachmentFileUrl = p.Course.AttachmentFileUrl,
+                    CreatedAt = p.Course.CreatedAt,
+                    AverageRating = p.Course.Ratings.Any() ? p.Course.Ratings.Average(r => r.Score) : 0,
+                    TotalRatings = p.Course.Ratings.Count
                 })
                 .ToListAsync();
 
@@ -58,7 +68,10 @@ namespace Kursai.Api.Controllers
         {
             var userId = GetUserId();
 
-            var course = await _context.Courses.FindAsync(courseId);
+            var course = await _context.Courses
+                .Include(c => c.Seller)
+                .FirstOrDefaultAsync(c => c.Id == courseId);
+                
             if (course == null)
             {
                 return NotFound(new { message = "Course not found" });
@@ -72,6 +85,12 @@ namespace Kursai.Api.Controllers
                 return BadRequest(new { message = "Course already purchased" });
             }
 
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
             var purchase = new Purchase
             {
                 UserId = userId,
@@ -82,6 +101,23 @@ namespace Kursai.Api.Controllers
 
             _context.Purchases.Add(purchase);
             await _context.SaveChangesAsync();
+
+            // Send purchase confirmation email
+            try
+            {
+                await _emailService.SendPurchaseConfirmationAsync(
+                    user.Email,
+                    user.Username,
+                    course.Title,
+                    course.Price,
+                    course.AttachmentFileUrl
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't fail the purchase
+                Console.WriteLine($"Failed to send email: {ex.Message}");
+            }
 
             return Ok(new { message = "Course purchased successfully" });
         }

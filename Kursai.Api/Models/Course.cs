@@ -26,8 +26,12 @@ namespace Kursai.Api.Models
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
 
-        [Column(TypeName = "LONGTEXT")]
-        public string ImageUrl { get; set; } = "dotnet_bot.png";
+        [MaxLength(500)]
+        public byte[]? AttachmentFile { get; set; }
+        public string? AttachmentFileName { get; set; }
+        public string? AttachmentFileType { get; set; }
+        public string? AttachmentFileUrl { get; set; }
+        public long? AttachmentFileSize { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -37,5 +41,6 @@ namespace Kursai.Api.Models
 
         public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
         public virtual ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

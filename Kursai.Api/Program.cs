@@ -83,6 +83,7 @@ builder.Services.AddAuthentication(options =>
 
 // Register services
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -97,7 +98,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

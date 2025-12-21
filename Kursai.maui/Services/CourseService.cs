@@ -7,6 +7,7 @@ namespace Kursai.maui.Services
         private readonly List<Course> _courses = new();
         private readonly List<Favorite> _favorites = new();
         private readonly List<Purchase> _purchases = new();
+        private readonly List<Rating> _ratings = new();
 
         public CourseService()
         {
@@ -22,7 +23,9 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-10)
+                    CreatedAt = DateTime.Now.AddDays(-10),
+                    AverageRating = 4.5,
+                    TotalRatings = 12
                 },
                 new Course
                 {
@@ -33,7 +36,9 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-5)
+                    CreatedAt = DateTime.Now.AddDays(-5),
+                    AverageRating = 4.2,
+                    TotalRatings = 8
                 },
                 new Course
                 {
@@ -44,7 +49,9 @@ namespace Kursai.maui.Services
                     SellerId = 1,
                     SellerName = "demo",
                     Category = "Programming",
-                    CreatedAt = DateTime.Now.AddDays(-3)
+                    CreatedAt = DateTime.Now.AddDays(-3),
+                    AverageRating = 4.8,
+                    TotalRatings = 25
                 }
             });
         }
@@ -100,6 +107,10 @@ namespace Kursai.maui.Services
             existing.Description = course.Description;
             existing.Price = course.Price;
             existing.Category = course.Category;
+            existing.AttachmentFileName = course.AttachmentFileName;
+            existing.AttachmentFileType = course.AttachmentFileType;
+            existing.AttachmentFileUrl = course.AttachmentFileUrl;
+            existing.AttachmentFileSize = course.AttachmentFileSize;
             return true;
         }
 
@@ -172,6 +183,94 @@ namespace Kursai.maui.Services
             };
 
             _purchases.Add(purchase);
+            return true;
+        }
+
+        // Rating methods
+        public async Task<Rating?> GetUserRatingAsync(int userId, int courseId)
+        {
+            await Task.Delay(100);
+            return _ratings.FirstOrDefault(r => r.UserId == userId && r.CourseId == courseId);
+        }
+
+        public async Task<List<Rating>> GetCourseRatingsAsync(int courseId)
+        {
+            await Task.Delay(300);
+            return _ratings.Where(r => r.CourseId == courseId).OrderByDescending(r => r.CreatedAt).ToList();
+        }
+
+        public async Task<bool> SubmitRatingAsync(int userId, int courseId, int score, string? review)
+        {
+            await Task.Delay(300);
+
+            if (_ratings.Any(r => r.UserId == userId && r.CourseId == courseId))
+                return false; // Already rated
+
+            var rating = new Rating
+            {
+                Id = _ratings.Count > 0 ? _ratings.Max(r => r.Id) + 1 : 1,
+                UserId = userId,
+                CourseId = courseId,
+                Score = score,
+                Review = review,
+                Username = "User", // In real app, get from user service
+                CreatedAt = DateTime.Now
+            };
+
+            _ratings.Add(rating);
+
+            // Update course average rating
+            var course = _courses.FirstOrDefault(c => c.Id == courseId);
+            if (course != null)
+            {
+                var courseRatings = _ratings.Where(r => r.CourseId == courseId).ToList();
+                course.AverageRating = courseRatings.Average(r => r.Score);
+                course.TotalRatings = courseRatings.Count;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> UpdateRatingAsync(int ratingId, int score, string? review)
+        {
+            await Task.Delay(300);
+
+            var rating = _ratings.FirstOrDefault(r => r.Id == ratingId);
+            if (rating == null) return false;
+
+            rating.Score = score;
+            rating.Review = review;
+            rating.UpdatedAt = DateTime.Now;
+
+            // Update course average rating
+            var course = _courses.FirstOrDefault(c => c.Id == rating.CourseId);
+            if (course != null)
+            {
+                var courseRatings = _ratings.Where(r => r.CourseId == rating.CourseId).ToList();
+                course.AverageRating = courseRatings.Average(r => r.Score);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteRatingAsync(int ratingId)
+        {
+            await Task.Delay(300);
+
+            var rating = _ratings.FirstOrDefault(r => r.Id == ratingId);
+            if (rating == null) return false;
+
+            _ratings.Remove(rating);
+
+            // Update course average rating
+            var course = _courses.FirstOrDefault(c => c.Id == rating.CourseId);
+            if (course != null)
+            {
+                var courseRatings = _ratings.Where(r => r.CourseId == rating.CourseId).ToList();
+                course.AverageRating = courseRatings.Any() ? courseRatings.Average(r => r.Score) : 0;
+                course.TotalRatings = courseRatings.Count;
+            }
+
             return true;
         }
     }

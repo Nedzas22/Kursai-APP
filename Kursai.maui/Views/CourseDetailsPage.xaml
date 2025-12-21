@@ -32,17 +32,6 @@
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Spacing="0">
-                
-                <!-- Hero Image -->
-                <Frame Padding="0"
-                       CornerRadius="0,0,32,32"
-                       IsClippedToBounds="True"
-                       HasShadow="False"
-                       HeightRequest="280"
-                       BackgroundColor="{StaticResource SurfaceVariant}">
-                    <Image Source="{Binding Course.ImageUrl}"
-                           Aspect="AspectFill"/>
-                </Frame>
 
                 <!-- Content -->
                 <VerticalStackLayout Padding="24,24" Spacing="24">
@@ -96,6 +85,106 @@
                         </HorizontalStackLayout>
                     </Frame>
 
+                    <!-- Rating Section -->
+                    <Frame Style="{StaticResource CardFrame}"
+                           Padding="20"
+                           IsVisible="{Binding Course.TotalRatings, Converter={StaticResource IsGreaterThanZeroConverter}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Course Rating"
+                                   FontSize="18"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+                            
+                            <HorizontalStackLayout Spacing="16">
+                                <!-- Large star rating badge -->
+                                <Frame BackgroundColor="{StaticResource Primary}"
+                                       CornerRadius="16"
+                                       Padding="20"
+                                       HasShadow="False"
+                                       VerticalOptions="Center">
+                                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                                        <Label Text="★"
+                                               FontSize="32"
+                                               TextColor="{StaticResource TextOnPrimary}"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Course.AverageRating, StringFormat='{0:F1}'}"
+                                               FontSize="28"
+                                               FontFamily="OpenSansSemibold"
+                                               TextColor="{StaticResource TextOnPrimary}"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                                
+                                <VerticalStackLayout VerticalOptions="Center" Spacing="4">
+                                    <Label Text="{Binding Course.AverageRating, StringFormat='Average: {0:F1} out of 5'}"
+                                           FontSize="16"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="{StaticResource TextPrimary}"/>
+                                    <Label Text="{Binding Course.TotalRatings, StringFormat='Based on {0} ratings'}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource TextSecondary}"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Submit Rating Section (for users who can rate) -->
+                    <Frame Style="{StaticResource CardFrame}"
+                           Padding="20"
+                           IsVisible="{Binding CanRate}">
+                        <VerticalStackLayout Spacing="16">
+                            <Label Text="Rate This Course"
+                                   FontSize="18"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+                            
+                            <!-- Star Rating Selector -->
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Button Text="★" FontSize="40" Padding="8"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{Binding SelectedRating, Converter={StaticResource RatingButtonColorConverter}, ConverterParameter=1}"
+                                        Clicked="OnStarClicked"
+                                        CommandParameter="1"/>
+                                <Button Text="★" FontSize="40" Padding="8"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{Binding SelectedRating, Converter={StaticResource RatingButtonColorConverter}, ConverterParameter=2}"
+                                        Clicked="OnStarClicked"
+                                        CommandParameter="2"/>
+                                <Button Text="★" FontSize="40" Padding="8"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{Binding SelectedRating, Converter={StaticResource RatingButtonColorConverter}, ConverterParameter=3}"
+                                        Clicked="OnStarClicked"
+                                        CommandParameter="3"/>
+                                <Button Text="★" FontSize="40" Padding="8"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{Binding SelectedRating, Converter={StaticResource RatingButtonColorConverter}, ConverterParameter=4}"
+                                        Clicked="OnStarClicked"
+                                        CommandParameter="4"/>
+                                <Button Text="★" FontSize="40" Padding="8"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{Binding SelectedRating, Converter={StaticResource RatingButtonColorConverter}, ConverterParameter=5}"
+                                        Clicked="OnStarClicked"
+                                        CommandParameter="5"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Review Text -->
+                            <Editor Text="{Binding ReviewText}"
+                                    Placeholder="Write your review (optional)"
+                                    HeightRequest="100"
+                                    BackgroundColor="{StaticResource Surface}"
+                                    TextColor="{StaticResource TextPrimary}"
+                                    PlaceholderColor="{StaticResource TextTertiary}"/>
+                            
+                            <!-- Submit Button -->
+                            <Button Text="Submit Rating"
+                                    Command="{Binding SubmitRatingCommand}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="{StaticResource TextOnPrimary}"
+                                    IsEnabled="{Binding SelectedRating, Converter={StaticResource IsGreaterThanZeroConverter}}"
+                                    HeightRequest="48"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
                     <!-- Description Section -->
                     <VerticalStackLayout Spacing="12">
                         <Label Text="About This Course"
@@ -110,8 +199,160 @@
                                LineHeight="1.5"/>
                     </VerticalStackLayout>
 
+                    <!-- Attached File Section -->
+                    <Frame Style="{StaticResource CardFrame}"
+                           Padding="20"
+                           IsVisible="{Binding Course.AttachmentFileName, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                        <VerticalStackLayout Spacing="12">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="📎"
+                                       FontSize="24"
+                                       VerticalOptions="Center"/>
+                                <Label Text="Course Material"
+                                       FontSize="18"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            
+                            <BoxView HeightRequest="1"
+                                     Color="{StaticResource Border}"
+                                     Margin="0,4,0,8"/>
+                            
+                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                                <!-- File Icon -->
+                                <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                                       BackgroundColor="{StaticResource SurfaceVariant}"
+                                       CornerRadius="12"
+                                       Padding="16"
+                                       HasShadow="False"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       VerticalOptions="Center">
+                                    <Label Text="{Binding Course.AttachmentFileType, Converter={StaticResource FileTypeToIconConverter}}"
+                                           FontSize="28"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                                
+                                <!-- File Name -->
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Course.AttachmentFileName}"
+                                       FontSize="16"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       LineBreakMode="TailTruncation"
+                                       VerticalOptions="End"/>
+                                
+                                <!-- File Type -->
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding Course.AttachmentFileType}"
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center"/>
+                                
+                                <!-- File Size -->
+                                <Label Grid.Row="2" Grid.Column="1"
+                                       Text="{Binding Course.AttachmentFileSize, Converter={StaticResource FileSizeConverter}, StringFormat='Size: {0}'}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextTertiary}"
+                                       VerticalOptions="Start"/>
+                            </Grid>
+                            
+                            <!-- Access Status Messages -->
+                            
+                            <!-- Own Course Message -->
+                            <Frame BackgroundColor="{StaticResource Success}"
+                                   Padding="12"
+                                   CornerRadius="8"
+                                   HasShadow="False"
+                                   Margin="0,8,0,0"
+                                   IsVisible="{Binding IsOwnCourse}">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="✓"
+                                           FontSize="18"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="White"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="You created this course - Full access available"
+                                           FontSize="13"
+                                           FontFamily="OpenSansSemibold"
+                                           TextColor="White"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="WordWrap"
+                                           HorizontalOptions="FillAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            
+                            <!-- Purchased Message -->
+                            <Frame BackgroundColor="{StaticResource Success}"
+                                   Padding="12"
+                                   CornerRadius="8"
+                                   HasShadow="False"
+                                   Margin="0,8,0,0"
+                                   IsVisible="{Binding IsPurchased}">
+                                <VerticalStackLayout Spacing="4">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="✓"
+                                               FontSize="18"
+                                               FontFamily="OpenSansSemibold"
+                                               TextColor="White"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Purchased - Material available"
+                                               FontSize="13"
+                                               FontFamily="OpenSansSemibold"
+                                               TextColor="White"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                            
+                            <!-- Not Purchased Message -->
+                            <Frame BackgroundColor="{StaticResource Info}"
+                                   Padding="12"
+                                   CornerRadius="8"
+                                   HasShadow="False"
+                                   Margin="0,8,0,0"
+                                   IsVisible="{Binding CanAccessFile, Converter={StaticResource InvertedBoolConverter}}">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="ℹ️"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Purchase this course to access the material"
+                                           FontSize="13"
+                                           TextColor="{StaticResource TextOnInfo}"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="WordWrap"
+                                           HorizontalOptions="FillAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            
+                            <!-- View File Button (only if user has access) -->
+                            <Button Text="📥 Download/View Material"
+                                    Command="{Binding ViewFileCommand}"
+                                    IsVisible="{Binding CanAccessFile}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="{StaticResource TextOnPrimary}"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="15"
+                                    HeightRequest="48"
+                                    CornerRadius="12"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
                     <!-- Action Buttons -->
                     <VerticalStackLayout Spacing="12" Margin="0,8,0,32">
+                        
+                        <!-- Purchase Button (only if not owned and not purchased) -->
+                        <Button Text="{Binding Course.Price, StringFormat='💳 Purchase for ${0:F2}'}"
+                                Command="{Binding PurchaseCourseCommand}"
+                                IsVisible="{Binding CanAccessFile, Converter={StaticResource InvertedBoolConverter}}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource TextOnPrimary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="18"
+                                HeightRequest="56"/>
                         
                         <!-- Add to Favorites -->
                         <Button Text="♥ Add to Library"

@@ -35,6 +35,8 @@ namespace Kursai.Api.Controllers
                 .Where(f => f.UserId == userId)
                 .Include(f => f.Course)
                 .ThenInclude(c => c!.Seller)
+                .Include(f => f.Course)
+                .ThenInclude(c => c!.Ratings)
                 .OrderByDescending(f => f.AddedDate)
                 .Select(f => new CourseDto
                 {
@@ -45,8 +47,13 @@ namespace Kursai.Api.Controllers
                     SellerId = f.Course.SellerId,
                     SellerName = f.Course.Seller!.Username,
                     Category = f.Course.Category,
-                    ImageUrl = f.Course.ImageUrl,
-                    CreatedAt = f.Course.CreatedAt
+                    AttachmentFileName = f.Course.AttachmentFileName,
+                    AttachmentFileType = f.Course.AttachmentFileType,
+                    AttachmentFileSize = f.Course.AttachmentFileSize,
+                    AttachmentFileUrl = f.Course.AttachmentFileUrl,
+                    CreatedAt = f.Course.CreatedAt,
+                    AverageRating = f.Course.Ratings.Any() ? f.Course.Ratings.Average(r => r.Score) : 0,
+                    TotalRatings = f.Course.Ratings.Count
                 })
                 .ToListAsync();
 

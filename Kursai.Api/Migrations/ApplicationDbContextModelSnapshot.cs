@@ -30,6 +30,22 @@ namespace Kursai.Api.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte[]>("AttachmentFile")
+                        .HasMaxLength(500)
+                        .HasColumnType("varbinary(500)");
+
+                    b.Property<string>("AttachmentFileName")
+                        .HasColumnType("longtext");
+
+                    b.Property<long?>("AttachmentFileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AttachmentFileType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AttachmentFileUrl")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -41,10 +57,6 @@ namespace Kursai.Api.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("LONGTEXT");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
@@ -74,9 +86,8 @@ namespace Kursai.Api.Migrations
                         {
                             Id = 1,
                             Category = "Programming",
-                            CreatedAt = new DateTime(2025, 11, 28, 15, 19, 13, 315, DateTimeKind.Utc).AddTicks(2137),
+                            CreatedAt = new DateTime(2025, 12, 1, 13, 26, 16, 916, DateTimeKind.Utc).AddTicks(5047),
                             Description = "Learn C# from basics to advanced",
-                            ImageUrl = "dotnet_bot.png",
                             Price = 49.99m,
                             SellerId = 1,
                             Title = "C# Complete Course"
@@ -85,9 +96,8 @@ namespace Kursai.Api.Migrations
                         {
                             Id = 2,
                             Category = "Programming",
-                            CreatedAt = new DateTime(2025, 12, 3, 15, 19, 13, 315, DateTimeKind.Utc).AddTicks(2595),
+                            CreatedAt = new DateTime(2025, 12, 6, 13, 26, 16, 916, DateTimeKind.Utc).AddTicks(5785),
                             Description = "Master Java programming",
-                            ImageUrl = "dotnet_bot.png",
                             Price = 39.99m,
                             SellerId = 1,
                             Title = "Java Fundamentals"
@@ -96,9 +106,8 @@ namespace Kursai.Api.Migrations
                         {
                             Id = 3,
                             Category = "Programming",
-                            CreatedAt = new DateTime(2025, 12, 5, 15, 19, 13, 315, DateTimeKind.Utc).AddTicks(2606),
+                            CreatedAt = new DateTime(2025, 12, 8, 13, 26, 16, 916, DateTimeKind.Utc).AddTicks(5796),
                             Description = "Start your Python journey",
-                            ImageUrl = "dotnet_bot.png",
                             Price = 29.99m,
                             SellerId = 1,
                             Title = "Python for Beginners"
@@ -162,6 +171,43 @@ namespace Kursai.Api.Migrations
                     b.ToTable("Purchases");
                 });
 
+            modelBuilder.Entity("Kursai.Api.Models.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Review")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId", "CourseId")
+                        .IsUnique();
+
+                    b.ToTable("Ratings");
+                });
+
             modelBuilder.Entity("Kursai.Api.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -201,9 +247,9 @@ namespace Kursai.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 8, 15, 19, 13, 313, DateTimeKind.Utc).AddTicks(7055),
+                            CreatedAt = new DateTime(2025, 12, 11, 13, 26, 16, 914, DateTimeKind.Utc).AddTicks(7116),
                             Email = "demo@example.com",
-                            PasswordHash = "$2a$11$EwqIfXN7FL1xkopIH3sneOwFPm4WQ6atzD5kx8W9tRCQQ.S6boIOG",
+                            PasswordHash = "$2a$11$qrlSK/fCZL8NiLqUVYgVdu9sgigMGBFgX16hQ79IjhnjLzn4gx1tG",
                             Username = "demo"
                         });
                 });
@@ -257,11 +303,32 @@ namespace Kursai.Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Kursai.Api.Models.Rating", b =>
+                {
+                    b.HasOne("Kursai.Api.Models.Course", "Course")
+                        .WithMany("Ratings")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kursai.Api.Models.User", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Kursai.Api.Models.Course", b =>
                 {
                     b.Navigation("Favorites");
 
                     b.Navigation("Purchases");
+
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("Kursai.Api.Models.User", b =>
@@ -271,6 +338,8 @@ namespace Kursai.Api.Migrations
                     b.Navigation("Favorites");
 
                     b.Navigation("Purchases");
+
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

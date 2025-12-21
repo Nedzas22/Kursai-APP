@@ -4,7 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Kursai.maui.Views"
-    Title="Kursai.maui">
+    Title="Kursai.maui"
+    Shell.TabBarBackgroundColor="{StaticResource Surface}"
+    Shell.TabBarForegroundColor="{StaticResource Primary}"
+    Shell.TabBarTitleColor="{StaticResource TextPrimary}"
+    Shell.TabBarUnselectedColor="{StaticResource TextTertiary}">
+
+    <Shell.Resources>
+        <Style x:Key="TabBarStyle" TargetType="TabBar">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Surface}" />
+            <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource TextPrimary}" />
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TextTertiary}" />
+        </Style>
+    </Shell.Resources>
 
     <ShellContent
         Route="LoginPage"
@@ -14,7 +27,8 @@
         Shell.TabBarIsVisible="False" />
 
     <TabBar Route="MainTabs" x:Name="MainTabs"
-            Shell.FlyoutBehavior="Disabled">
+            Shell.FlyoutBehavior="Disabled"
+            Style="{StaticResource TabBarStyle}">
         <Tab Title="Shop" Icon="dotnet_bot.png">
             <ShellContent ContentTemplate="{DataTemplate views:ShopPage}" 
                          Route="ShopPage"/>

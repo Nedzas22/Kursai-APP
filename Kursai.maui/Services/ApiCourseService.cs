@@ -127,7 +127,11 @@ namespace Kursai.maui.Services
                     title = course.Title,
                     description = course.Description,
                     price = course.Price,
-                    category = course.Category
+                    category = course.Category,
+                    attachmentFileName = course.AttachmentFileName,
+                    attachmentFileType = course.AttachmentFileType,
+                    attachmentFileUrl = course.AttachmentFileUrl,
+                    attachmentFileSize = course.AttachmentFileSize
                 };
 
                 var response = await _httpClient.PostAsJsonAsync($"{ApiConfig.BaseUrl}/courses", createDto);
@@ -151,7 +155,11 @@ namespace Kursai.maui.Services
                     title = course.Title,
                     description = course.Description,
                     price = course.Price,
-                    category = course.Category
+                    category = course.Category,
+                    attachmentFileName = course.AttachmentFileName,
+                    attachmentFileType = course.AttachmentFileType,
+                    attachmentFileUrl = course.AttachmentFileUrl,
+                    attachmentFileSize = course.AttachmentFileSize
                 };
 
                 var response = await _httpClient.PutAsJsonAsync($"{ApiConfig.BaseUrl}/courses/{course.Id}", updateDto);
@@ -245,6 +253,97 @@ namespace Kursai.maui.Services
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error purchasing course: {ex.Message}");
+                return false;
+            }
+        }
+
+        // Rating methods
+        public async Task<Rating?> GetUserRatingAsync(int userId, int courseId)
+        {
+            try
+            {
+                await SetAuthorizationHeaderAsync();
+                
+                var response = await _httpClient.GetAsync($"{ApiConfig.BaseUrl}/ratings/course/{courseId}/user");
+                
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return null;
+                    
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Rating>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting user rating: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<Rating>> GetCourseRatingsAsync(int courseId)
+        {
+            try
+            {
+                await SetAuthorizationHeaderAsync();
+                
+                var response = await _httpClient.GetAsync($"{ApiConfig.BaseUrl}/ratings/course/{courseId}");
+                response.EnsureSuccessStatusCode();
+                
+                var ratings = await response.Content.ReadFromJsonAsync<List<Rating>>();
+                return ratings ?? new List<Rating>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting course ratings: {ex.Message}");
+                return new List<Rating>();
+            }
+        }
+
+        public async Task<bool> SubmitRatingAsync(int userId, int courseId, int score, string? review)
+        {
+            try
+            {
+                await SetAuthorizationHeaderAsync();
+                
+                var dto = new { score, review };
+                var response = await _httpClient.PostAsJsonAsync($"{ApiConfig.BaseUrl}/ratings/course/{courseId}", dto);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error submitting rating: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateRatingAsync(int ratingId, int score, string? review)
+        {
+            try
+            {
+                await SetAuthorizationHeaderAsync();
+                
+                var dto = new { score, review };
+                var response = await _httpClient.PutAsJsonAsync($"{ApiConfig.BaseUrl}/ratings/{ratingId}", dto);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error updating rating: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteRatingAsync(int ratingId)
+        {
+            try
+            {
+                await SetAuthorizationHeaderAsync();
+                
+                var response = await _httpClient.DeleteAsync($"{ApiConfig.BaseUrl}/ratings/{ratingId}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error deleting rating: {ex.Message}");
                 return false;
             }
         }

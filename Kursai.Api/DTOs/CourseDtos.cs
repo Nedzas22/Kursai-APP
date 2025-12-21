@@ -11,8 +11,15 @@ namespace Kursai.Api.DTOs
         public int SellerId { get; set; }
         public string SellerName { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;
+        public string? AttachmentFileName { get; set; }
+        public string? AttachmentFileType { get; set; }
+        public long? AttachmentFileSize { get; set; }
+        public string? AttachmentFileUrl { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        // Ratings
+        public double AverageRating { get; set; }
+        public int TotalRatings { get; set; }
     }
 
     public class CreateCourseDto
@@ -32,8 +39,10 @@ namespace Kursai.Api.DTOs
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
 
-        // No max length - supports large base64 images
-        public string ImageUrl { get; set; } = "dotnet_bot.png";
+        public string? AttachmentFileName { get; set; }
+        public string? AttachmentFileType { get; set; }
+        public long? AttachmentFileSize { get; set; }
+        public string? AttachmentFileUrl { get; set; }
     }
 
     public class UpdateCourseDto
@@ -53,7 +62,9 @@ namespace Kursai.Api.DTOs
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
 
-        // No max length - supports large base64 images
-        public string ImageUrl { get; set; } = "dotnet_bot.png";
+        public string? AttachmentFileName { get; set; }
+        public string? AttachmentFileType { get; set; }
+        public long? AttachmentFileSize { get; set; }
+        public string? AttachmentFileUrl { get; set; }
     }
 }

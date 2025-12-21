@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kursai.maui.Views.UIShowcasePage"
+             Title="UI Showcase"
+             BackgroundColor="{StaticResource Background}">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="32">
+            
+            <!-- Header -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="?? UI Component Showcase" 
+                       Style="{StaticResource Headline1}"/>
+                <Label Text="Premium dark theme with gold accents" 
+                       Style="{StaticResource Subtitle}"/>
+            </VerticalStackLayout>
+
+            <!-- Buttons Section -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Buttons" Style="{StaticResource Headline2}"/>
+                
+                <Button Text="Primary Button" />
+                <Button Text="Secondary Button" Style="{StaticResource SecondaryButton}"/>
+                <Button Text="Danger Button" Style="{StaticResource DangerButton}"/>
+                
+                <HorizontalStackLayout Spacing="12">
+                    <Button Text="??" Style="{StaticResource IconButton}"/>
+                    <Button Text="??" Style="{StaticResource IconButton}"/>
+                    <Button Text="??" Style="{StaticResource IconButton}"/>
+                </HorizontalStackLayout>
+                
+                <Button Text="+" Style="{StaticResource FAB}" HorizontalOptions="End"/>
+            </VerticalStackLayout>
+
+            <!-- Cards Section -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Cards &amp; Containers" Style="{StaticResource Headline2}"/>
+                
+                <!-- Standard Card -->
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Standard Card" 
+                               FontSize="18" 
+                               FontFamily="OpenSansSemibold"/>
+                        <Label Text="Regular card with border and rounded corners" 
+                               Style="{StaticResource Subtitle}"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Elevated Card -->
+                <Frame Style="{StaticResource ElevatedCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Elevated Card" 
+                               FontSize="18" 
+                               FontFamily="OpenSansSemibold"/>
+                        <Label Text="Enhanced card with shadow for depth" 
+                               Style="{StaticResource Subtitle}"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Glass Card -->
+                <Frame Style="{StaticResource GlassCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Glass Card" 
+                               FontSize="18" 
+                               FontFamily="OpenSansSemibold"/>
+                        <Label Text="Semi-transparent frosted glass effect" 
+                               Style="{StaticResource Subtitle}"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Badges & Chips -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Badges &amp; Chips" Style="{StaticResource Headline2}"/>
+                
+                <HorizontalStackLayout Spacing="8">
+                    <Frame Style="{StaticResource Chip}">
+                        <Label Text="Programming" FontSize="12"/>
+                    </Frame>
+                    <Frame Style="{StaticResource Chip}">
+                        <Label Text="Design" FontSize="12"/>
+                    </Frame>
+                    <Frame Style="{StaticResource Chip}">
+                        <Label Text="Business" FontSize="12"/>
+                    </Frame>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout Spacing="8">
+                    <Frame Style="{StaticResource PremiumBadge}">
+                        <Label Text="? 4.5" TextColor="Black" FontSize="12" FontFamily="OpenSansSemibold"/>
+                    </Frame>
+                    <Frame Style="{StaticResource PremiumBadge}">
+                        <Label Text="Featured" TextColor="Black" FontSize="12" FontFamily="OpenSansSemibold"/>
+                    </Frame>
+                    <Frame Style="{StaticResource PremiumBadge}">
+                        <Label Text="New" TextColor="Black" FontSize="12" FontFamily="OpenSansSemibold"/>
+                    </Frame>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Typography -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Typography" Style="{StaticResource Headline2}"/>
+                
+                <Label Text="Headline 1 - 32px" Style="{StaticResource Headline1}"/>
+                <Label Text="Headline 2 - 24px" Style="{StaticResource Headline2}"/>
+                <Label Text="Subtitle - 16px" Style="{StaticResource Subtitle}"/>
+                <Label Text="Body - 15px"/>
+                <Label Text="Caption - 13px" Style="{StaticResource Caption}"/>
+            </VerticalStackLayout>
+
+            <!-- Gradients -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Gradient Backgrounds" Style="{StaticResource Headline2}"/>
+                
+                <Frame Background="{StaticResource PrimaryGradient}" 
+                       Padding="20" 
+                       CornerRadius="16">
+                    <Label Text="Primary Gradient" 
+                           TextColor="Black" 
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"/>
+                </Frame>
+                
+                <Frame Background="{StaticResource SuccessGradient}" 
+                       Padding="20" 
+                       CornerRadius="16">
+                    <Label Text="Success Gradient" 
+                           TextColor="White" 
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"/>
+                </Frame>
+                
+                <Frame Background="{StaticResource InfoGradient}" 
+                       Padding="20" 
+                       CornerRadius="16">
+                    <Label Text="Info Gradient" 
+                           TextColor="White" 
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"/>
+                </Frame>
+                
+                <Frame Background="{StaticResource DangerGradient}" 
+                       Padding="20" 
+                       CornerRadius="16">
+                    <Label Text="Danger Gradient" 
+                           TextColor="White" 
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Input Fields -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Form Inputs" Style="{StaticResource Headline2}"/>
+                
+                <Entry Placeholder="Standard Entry" Style="{StaticResource ModernEntry}"/>
+                <Editor Placeholder="Multi-line Editor" HeightRequest="100"/>
+                <SearchBar Placeholder="Search..."/>
+                <Picker Title="Select an option" ItemsSource="{Binding Options}"/>
+            </VerticalStackLayout>
+
+            <!-- Interactive Elements -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Interactive Elements" Style="{StaticResource Headline2}"/>
+                
+                <HorizontalStackLayout Spacing="12">
+                    <CheckBox Color="{StaticResource Primary}"/>
+                    <Label Text="Checkbox" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout Spacing="12">
+                    <Switch OnColor="{StaticResource Primary}"/>
+                    <Label Text="Switch" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Slider"/>
+                    <Slider/>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Progress Bar"/>
+                    <ProgressBar Progress="0.65"/>
+                </VerticalStackLayout>
+                
+                <ActivityIndicator IsRunning="True" Color="{StaticResource Primary}"/>
+            </VerticalStackLayout>
+
+            <!-- Status Colors -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Status Colors" Style="{StaticResource Headline2}"/>
+                
+                <Frame BackgroundColor="{StaticResource Success}" Padding="16" CornerRadius="12">
+                    <Label Text="? Success Message" TextColor="White" FontFamily="OpenSansSemibold"/>
+                </Frame>
+                
+                <Frame BackgroundColor="{StaticResource Warning}" Padding="16" CornerRadius="12">
+                    <Label Text="?? Warning Message" TextColor="White" FontFamily="OpenSansSemibold"/>
+                </Frame>
+                
+                <Frame BackgroundColor="{StaticResource Error}" Padding="16" CornerRadius="12">
+                    <Label Text="? Error Message" TextColor="White" FontFamily="OpenSansSemibold"/>
+                </Frame>
+                
+                <Frame BackgroundColor="{StaticResource Info}" Padding="16" CornerRadius="12">
+                    <Label Text="?? Info Message" TextColor="White" FontFamily="OpenSansSemibold"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Example Course Card -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Example Course Card" Style="{StaticResource Headline2}"/>
+                
+                <Frame Style="{StaticResource ElevatedCard}">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
+                        
+                        <!-- Category Badge -->
+                        <Frame Style="{StaticResource Chip}" Grid.Row="0">
+                            <Label Text="Programming" FontSize="12"/>
+                        </Frame>
+                        
+                        <!-- Title -->
+                        <Label Text="Complete C# Masterclass" 
+                               FontSize="22"
+                               FontFamily="OpenSansSemibold"
+                               Grid.Row="1"/>
+                        
+                        <!-- Description -->
+                        <Label Text="Learn C# programming from beginner to advanced level with hands-on projects" 
+                               Style="{StaticResource Subtitle}"
+                               LineBreakMode="WordWrap"
+                               Grid.Row="2"/>
+                        
+                        <!-- Rating and Price -->
+                        <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <HorizontalStackLayout Spacing="8">
+                                <Frame Style="{StaticResource PremiumBadge}">
+                                    <Label Text="? 4.8" TextColor="Black" FontSize="12" FontFamily="OpenSansSemibold"/>
+                                </Frame>
+                                <Label Text="(1,234)" 
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            
+                            <Label Text="$49.99" 
+                                   FontSize="28"
+                                   FontFamily="OpenSansSemibold"
+                                   TextColor="{StaticResource Primary}"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                        
+                        <!-- Actions -->
+                        <Grid Grid.Row="4" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Button Text="Enroll Now" Grid.Column="0"/>
+                            <Button Text="?" Style="{StaticResource IconButton}" Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Spacing Guide -->
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Spacing System" Style="{StaticResource Headline2}"/>
+                
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Small: 8px" Style="{StaticResource Caption}"/>
+                        <Label Text="Medium: 16px" Style="{StaticResource Caption}"/>
+                        <Label Text="Large: 24px" Style="{StaticResource Caption}"/>
+                        <Label Text="XLarge: 32px" Style="{StaticResource Caption}"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

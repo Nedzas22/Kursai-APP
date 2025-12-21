@@ -3,6 +3,7 @@ using Kursai.maui.ViewModels;
 using Kursai.maui.Views;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using Microsoft.Maui.Platform;
 
 namespace Kursai.maui
 {
@@ -17,6 +18,13 @@ namespace Kursai.maui
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                })
+                .ConfigureMauiHandlers(handlers =>
+                {
+#if ANDROID
+                    // Customize tab bar appearance on Android
+                    handlers.AddHandler(typeof(Shell), typeof(Kursai.maui.Platforms.Android.CustomShellHandler));
+#endif
                 });
 
 #if DEBUG

@@ -25,5 +25,6 @@ namespace Kursai.Api.Models
         public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
         public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
         public virtual ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

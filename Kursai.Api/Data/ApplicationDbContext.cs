@@ -14,6 +14,7 @@ namespace Kursai.Api.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,6 +72,22 @@ namespace Kursai.Api.Data
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
+            // Rating configuration
+            modelBuilder.Entity<Rating>(entity =>
+            {
+                entity.HasIndex(e => new { e.UserId, e.CourseId }).IsUnique();
+
+                entity.HasOne(e => e.User)
+                    .WithMany(e => e.Ratings)
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Course)
+                    .WithMany(e => e.Ratings)
+                    .HasForeignKey(e => e.CourseId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
             // Seed data
             SeedData(modelBuilder);
         }
@@ -99,7 +116,6 @@ namespace Kursai.Api.Data
                     Price = 49.99m,
                     SellerId = 1,
                     Category = "Programming",
-                    ImageUrl = "dotnet_bot.png",
                     CreatedAt = DateTime.UtcNow.AddDays(-10)
                 },
                 new Course
@@ -110,7 +126,6 @@ namespace Kursai.Api.Data
                     Price = 39.99m,
                     SellerId = 1,
                     Category = "Programming",
-                    ImageUrl = "dotnet_bot.png",
                     CreatedAt = DateTime.UtcNow.AddDays(-5)
                 },
                 new Course
@@ -121,7 +136,6 @@ namespace Kursai.Api.Data
                     Price = 29.99m,
                     SellerId = 1,
                     Category = "Programming",
-                    ImageUrl = "dotnet_bot.png",
                     CreatedAt = DateTime.UtcNow.AddDays(-3)
                 }
             );

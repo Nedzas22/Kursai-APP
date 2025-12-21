@@ -16,5 +16,12 @@ namespace Kursai.maui.Services
         Task<bool> RemoveFromFavoritesAsync(int userId, int courseId);
         Task<bool> IsFavoriteAsync(int userId, int courseId);
         Task<bool> PurchaseCourseAsync(int userId, int courseId);
+        
+        // Rating methods
+        Task<Rating?> GetUserRatingAsync(int userId, int courseId);
+        Task<List<Rating>> GetCourseRatingsAsync(int courseId);
+        Task<bool> SubmitRatingAsync(int userId, int courseId, int score, string? review);
+        Task<bool> UpdateRatingAsync(int ratingId, int score, string? review);
+        Task<bool> DeleteRatingAsync(int ratingId);
     }
 }

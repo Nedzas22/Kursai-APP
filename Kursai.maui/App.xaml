@@ -13,6 +13,11 @@
             
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <converters:FileSizeConverter x:Key="FileSizeConverter" />
+            <converters:FileTypeToIconConverter x:Key="FileTypeToIconConverter" />
+            <converters:RatingToStarsConverter x:Key="RatingToStarsConverter" />
+            <converters:IsGreaterThanZeroConverter x:Key="IsGreaterThanZeroConverter" />
+            <converters:RatingButtonColorConverter x:Key="RatingButtonColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

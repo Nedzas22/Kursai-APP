@@ -22,46 +22,6 @@
 
             <!-- Course Form -->
             <VerticalStackLayout Spacing="20">
-                
-                <!-- Course Image Picker -->
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="Course Image"
-                           FontSize="14"
-                           FontFamily="OpenSansSemibold"
-                           TextColor="{StaticResource TextSecondary}"/>
-                    
-                    <Frame Style="{StaticResource CardFrame}"
-                           Padding="16"
-                           HeightRequest="200"
-                           BackgroundColor="{StaticResource Surface}">
-                        <Grid>
-                            <!-- Default placeholder or selected image -->
-                            <Image Source="{Binding SelectedImageSource}"
-                                   Aspect="AspectFill"
-                                   IsVisible="{Binding SelectedImageSource, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
-                            
-                            <!-- Placeholder when no image selected -->
-                            <VerticalStackLayout HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                Spacing="12"
-                                                IsVisible="{Binding SelectedImageSource, Converter={StaticResource InvertedBoolConverter}}">
-                                <Label Text="📷"
-                                       FontSize="48"
-                                       HorizontalOptions="Center"/>
-                                <Label Text="No image selected"
-                                       FontSize="14"
-                                       TextColor="{StaticResource TextSecondary}"
-                                       HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Frame>
-                    
-                    <!-- Select Image Button -->
-                    <Button Text="Change Image"
-                            Command="{Binding SelectImageCommand}"
-                            Style="{StaticResource SecondaryButton}"
-                            HeightRequest="48"/>
-                </VerticalStackLayout>
 
                 <!-- Course Title -->
                 <VerticalStackLayout Spacing="8">
@@ -158,6 +118,60 @@
                                    FontSize="16"
                                    HeightRequest="52"
                                    VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!-- File Attachment -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Course Material (Required)"
+                           FontSize="14"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{StaticResource TextSecondary}"/>
+                    <Label Text="Attach a video or PDF file"
+                           FontSize="12"
+                           TextColor="{StaticResource TextTertiary}"
+                           Margin="0,-4,0,0"/>
+                    
+                    <!-- Pick File Button -->
+                    <Button Text="📎 Select File"
+                            Command="{Binding PickFileCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            HeightRequest="52"
+                            IsVisible="{Binding HasAttachment, Converter={StaticResource InvertedBoolConverter}}"/>
+                    
+                    <!-- Selected File Display -->
+                    <Frame Padding="16" 
+                           CornerRadius="12" 
+                           HasShadow="False"
+                           BorderColor="{StaticResource Primary}"
+                           BackgroundColor="{StaticResource Surface}"
+                           IsVisible="{Binding HasAttachment}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="📄 Attached File"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="{Binding AttachmentFileName}"
+                                       FontSize="16"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding AttachmentFileType}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextTertiary}"/>
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="✕"
+                                    Command="{Binding RemoveFileCommand}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource Error}"
+                                    FontSize="24"
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    CornerRadius="20"
+                                    Padding="0"
+                                    VerticalOptions="Center"/>
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
