@@ -1,4 +1,4 @@
-# ?? Kursai - Course Trading Platform
+# Kursai - Course Trading Platform
 
 > **Cross-platform course selling and management system built with .NET MAUI and ASP.NET Core**
 
@@ -9,16 +9,16 @@
 
 ---
 
-## ?? About The Project
+## About The Project
 
 **Kursai** is a fully functional course trading platform that allows users to:
-- ?? **Create** and sell their own courses
-- ?? **Purchase** courses from other users
-- ?? **Save** favorite courses
-- ?? **Manage** personal course library
-- ?? **Handle** profile and finances
+- **Create** and sell their own courses
+- **Purchase** courses from other users
+- **Save** favorite courses
+- **Manage** personal course library
+- **Handle** profile and finances
 
-### ??? Architecture
+### Architecture
 
 ```
 ???????????????????????????????????????????????????????
@@ -40,44 +40,44 @@
 
 ---
 
-## ? Key Features
+## Key Features
 
-### ?? Authentication
+### Authentication
 - Registration with email validation
 - Login with JWT token authentication
 - Secure password hashing (BCrypt)
 - Automatic token refresh
 
-### ?? Course Management
+### Course Management
 - Create new courses with descriptions and prices
 - Edit and delete your own courses
 - Category-based organization
 - Price setting and management
 
-### ??? Shop
+### Shop
 - Browse all available courses
 - Search by title
 - Filter by category
 - Favorites system
 
-### ?? Library
+### Library
 - All purchased courses in one place
 - Quick access to content
 - Purchase history
 
-### ?? Profile
+### Profile
 - My created courses
 - Statistics and finances
 - Account management
 - Logout functionality
 
-### ? Rating System
+### Rating System
 - Rate purchased courses (1-5 stars)
 - View average ratings
 - Rating statistics
 - User reviews
 
-### ?? Download Feature
+### Download Feature
 - Download course materials
 - PDF and document support
 - File management
@@ -85,7 +85,7 @@
 
 ---
 
-## ??? Technology Stack
+## Technology Stack
 
 ### Backend (Kursai.Api)
 | Technology | Version | Purpose |
@@ -114,23 +114,21 @@
 | Moq | - | Mocking library |
 | EF Core InMemory | - | In-memory database for tests |
 
-**27 unit tests** - 100% backend coverage! ?
+**27 unit tests - 100% backend coverage**
 
 ---
 
-## ?? Quick Start
+## Quick Start
 
 ### Prerequisites
 
-```
-? .NET 9.0 SDK
-? .NET 10.0 SDK  
-? MySQL Server 8.0+
-? Visual Studio 2022 or VS Code
-? Android SDK (for Android app)
-```
+- .NET 9.0 SDK
+- .NET 10.0 SDK  
+- MySQL Server 8.0+
+- Visual Studio 2022 or VS Code
+- Android SDK (for Android app)
 
-### 1?? Backend API Setup
+### Backend API Setup
 
 ```bash
 # 1. Create database
@@ -151,7 +149,7 @@ dotnet run
 # Swagger: https://localhost:7128/swagger
 ```
 
-### 2?? MAUI App Setup
+### MAUI App Setup
 
 ```bash
 cd Kursai.maui
@@ -165,37 +163,37 @@ dotnet build -t:Run -f net10.0-android   # Android
 dotnet build -t:Run -f net10.0-windows10.0.19041.0  # Windows
 ```
 
-### 3?? Run Tests
+### Run Tests
 
 ```bash
 cd Kursai.Tests
 dotnet test
-# ? 27/27 tests passed
+# 27/27 tests passed
 ```
 
 ---
 
-## ?? Platform Support
+## Platform Support
 
 | Platform | Support | Min. Version |
 |-----------|---------|--------------|
-| ?? Android | ? | API 21 (5.0 Lollipop) |
-| ?? iOS | ? | iOS 11.0+ |
-| ?? Windows | ? | Windows 10 (19041+) |
-| ?? macOS | ? | MacCatalyst 14.0+ |
+| Android | Supported | API 21 (5.0 Lollipop) |
+| iOS | Supported | iOS 11.0+ |
+| Windows | Supported | Windows 10 (19041+) |
+| macOS | Supported | MacCatalyst 14.0+ |
 
 ---
 
-## ?? API Endpoints
+## API Endpoints
 
-### ?? Authentication (`/api/auth`)
+### Authentication (`/api/auth`)
 ```http
 POST /api/auth/register   # Registration
 POST /api/auth/login      # Login (returns JWT)
 GET  /api/auth/validate   # Token validation
 ```
 
-### ?? Courses (`/api/courses`)
+### Courses (`/api/courses`)
 ```http
 GET    /api/courses           # All courses
 GET    /api/courses/{id}      # Specific course
@@ -205,7 +203,7 @@ PUT    /api/courses/{id}      # Update course [Auth]
 DELETE /api/courses/{id}      # Delete course [Auth]
 ```
 
-### ?? Favorites (`/api/favorites`)
+### Favorites (`/api/favorites`)
 ```http
 GET    /api/favorites                # Favorites [Auth]
 POST   /api/favorites/{courseId}     # Add [Auth]
@@ -213,13 +211,13 @@ DELETE /api/favorites/{courseId}     # Remove [Auth]
 GET    /api/favorites/check/{id}     # Check [Auth]
 ```
 
-### ?? Purchases (`/api/purchases`)
+### Purchases (`/api/purchases`)
 ```http
 GET    /api/purchases           # Purchased courses [Auth]
 POST   /api/purchases/{id}      # Purchase [Auth]
 ```
 
-### ? Ratings (`/api/ratings`)
+### Ratings (`/api/ratings`)
 ```http
 GET    /api/ratings/course/{courseId}     # Course ratings
 POST   /api/ratings                        # Add rating [Auth]
@@ -231,7 +229,7 @@ DELETE /api/ratings/{id}                   # Delete rating [Auth]
 
 ---
 
-## ??? Database Schema
+## Database Schema
 
 ```sql
 Users
@@ -278,30 +276,30 @@ Ratings
 
 ---
 
-## ?? Screenshots
+## Screenshots
 
 ### Mobile Application
 ```
 ???????????????????????  ???????????????????????  ???????????????????????
-?   ?? Shop           ?  ?   ?? Library        ?  ?   ?? Profile        ?
+?   Shop              ?  ?   Library           ?  ?   Profile           ?
 ?                     ?  ?                     ?  ?                     ?
 ?  Search courses...  ?  ?  My Purchased       ?  ?  Username           ?
-?  [Filter ?]         ?  ?  Courses:           ?  ?  Email              ?
+?  [Filter]           ?  ?  Courses:           ?  ?  Email              ?
 ?                     ?  ?                     ?  ?                     ?
 ?  ?????????????????? ?  ?  ???????????????????  ?  My Courses         ?
 ?  ? Course Title   ? ?  ?  ? Bought Course  ??  ?  Logout             ?
-?  ? $49.99      ?? ? ?  ?  ? Access ?       ??  ?                     ?
-?  ? ?????      ? ?  ?  ? ????        ??  ?                     ?
+?  ? $49.99         ? ?  ?  ? Access         ??  ?                     ?
+?  ? Rating: 5/5    ? ?  ?  ? Rating: 4/5    ??  ?                     ?
 ?  ?????????????????? ?  ?  ???????????????????  ?                     ?
 ???????????????????????  ???????????????????????  ???????????????????????
 ```
 
 ---
 
-## ?? Testing
+## Testing
 
 ### Test Coverage
-- **? 27 Unit Tests** (100% backend coverage)
+- **27 Unit Tests** (100% backend coverage)
 - **AuthController**: Registration, login, validation
 - **CoursesController**: CRUD operations, authorization
 - **FavoritesController**: Favorites CRUD
@@ -319,57 +317,57 @@ More details: [TESTU_LENTELE.md](TESTU_LENTELE.md)
 
 ---
 
-## ?? Security
+## Security
 
 | Feature | Implementation |
 |---------|----------------|
-| ?? **Passwords** | BCrypt hash with salt |
-| ?? **Authentication** | JWT Bearer Tokens (24h expiry) |
-| ??? **Authorization** | Role-based endpoint protection |
-| ?? **HTTPS** | Required in production |
-| ?? **CORS** | Configured (whitelist) |
+| **Passwords** | BCrypt hash with salt |
+| **Authentication** | JWT Bearer Tokens (24h expiry) |
+| **Authorization** | Role-based endpoint protection |
+| **HTTPS** | Required in production |
+| **CORS** | Configured (whitelist) |
 
 ---
 
-## ?? Future Improvements
+## Future Improvements
 
-- [x] ? Course rating system
-- [x] ?? Download course materials
-- [x] ?? Email notifications (SendGrid)
-- [ ] ?? Comment functionality
-- [ ] ?? Advanced search and filtering
-- [ ] ?? Course view statistics
-- [ ] ?? Payment integration (Stripe/PayPal)
-- [ ] ?? Push notifications
-- [ ] ?? Offline mode (caching)
-- [ ] ????? Admin dashboard
-- [ ] ?? Video player integration
-- [ ] ?? PDF/document viewer
+- [x] Course rating system
+- [x] Download course materials
+- [x] Email notifications (SendGrid)
+- [ ] Comment functionality
+- [ ] Advanced search and filtering
+- [ ] Course view statistics
+- [ ] Payment integration (Stripe/PayPal)
+- [ ] Push notifications
+- [ ] Offline mode (caching)
+- [ ] Admin dashboard
+- [ ] Video player integration
+- [ ] PDF/document viewer
 
 ---
 
-## ????? Author
+## Author
 
 **Nedas**  
 Full stack development project (Backend + Frontend + Database + Tests)
 
 ---
 
-## ?? Contact
+## Contact
 
-- ?? **GitHub**: [Nedzas22](https://github.com/Nedzas22)
-- ?? **Email**: laizytuvas1@gmail.com
-- ?? **Repo**: [Kursai-APP](https://github.com/Nedzas22/Kursai-APP)
+- **GitHub**: [Nedzas22](https://github.com/Nedzas22)
+- **Email**: laizytuvas1@gmail.com
+- **Repo**: [Kursai-APP](https://github.com/Nedzas22/Kursai-APP)
 
 ---
 
-## ?? License
+## License
 
 This project is a **private educational project**.
 
 ---
 
-## ?? Acknowledgments
+## Acknowledgments
 
 - **Microsoft** for .NET ecosystem and MAUI framework
 - **.NET Community** for open-source libraries
@@ -380,8 +378,8 @@ This project is a **private educational project**.
 
 <div align="center">
 
-**? If you like this project, give it a star! ?**
+**If you like this project, give it a star!**
 
-*Built with ?? using .NET MAUI and ASP.NET Core*
+*Built with .NET MAUI and ASP.NET Core*
 
 </div>
