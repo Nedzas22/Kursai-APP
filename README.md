@@ -315,7 +315,7 @@ dotnet test --logger "console;verbosity=detailed"
 dotnet test /p:CollectCoverage=true
 ```
 
-More: [?? TESTU_LENTELE.md](TESTU_LENTELE.md)
+More details: [TESTU_LENTELE.md](TESTU_LENTELE.md)
 
 ---
 
@@ -328,18 +328,6 @@ More: [?? TESTU_LENTELE.md](TESTU_LENTELE.md)
 | ??? **Authorization** | Role-based endpoint protection |
 | ?? **HTTPS** | Required in production |
 | ?? **CORS** | Configured (whitelist) |
-
----
-
-## ?? Documentation
-
-- [?? SYSTEM_ARCHITECTURE_EXPLAINED.md](SYSTEM_ARCHITECTURE_EXPLAINED.md) - Complete system architecture description
-- [?? TESTU_LENTELE.md](TESTU_LENTELE.md) - Detailed test table
-- [?? PROGRAMINES_IRANGOS_REALIZACIJA.md](PROGRAMINES_IRANGOS_REALIZACIJA.md) - Implementation document
-- [?? Kursai.Tests/README.md](Kursai.Tests/README.md) - Unit tests documentation
-- [? RATING_SYSTEM_COMPLETE.md](RATING_SYSTEM_COMPLETE.md) - Rating system guide
-- [?? DOWNLOAD_FEATURE_DOCUMENTATION.md](DOWNLOAD_FEATURE_DOCUMENTATION.md) - Download feature guide
-- [?? SENDGRID_INTEGRATION_GUIDE.md](SENDGRID_INTEGRATION_GUIDE.md) - Email integration guide
 
 ---
 
