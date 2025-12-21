@@ -1,477 +1,358 @@
-# Kursai - Kurs? Prekybos Platforma
+# ?? Kursai - Kurs? Prekybos Platforma
 
-## ?? Projekto Apžvalga
+> **Cross-platform kurs? pardavimo ir valdymo sistema, sukurta su .NET MAUI ir ASP.NET Core**
 
-**Kursai** yra pilna kurs? prekybos platforma, sudaryta iš **REST API backend'o** ir **cross-platform mobiliosios aplikacijos**. Sistema leidžia vartotojams kurti, parduoti ir pirkti kursus, valdyti m?gstamiausius kursus ir tvarkyti asmenin? bibliotek?.
-
-### ?? Pagrindin? Funkcionalumas
-
-- ? Vartotoj? autentifikacija ir autorizacija (JWT)
-- ? Kurs? k?rimas ir valdymas
-- ? Kurs? parduotuv? (Marketplace)
-- ? M?gstamiausi? kurs? sistema
-- ? Asmenin? kurs? biblioteka
-- ? Kurs? pirkimo funkcionalumas
-- ? Vartotojo profilis
+[![.NET](https://img.shields.io/badge/.NET-9%20%7C%2010-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![MAUI](https://img.shields.io/badge/MAUI-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/apps/maui)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/license-Private-red)](LICENSE)
 
 ---
 
-## ??? Architekt?ra
+## ?? Apie Projekt?
 
-Projektas sudarytas iš **3 pagrindini? komponent?**:
+**Kursai** yra pilnai funkcionali kurs? prekybos platforma, leidžianti vartotojams:
+- ?? **Kurti** ir parduoti savo kursus
+- ?? **Pirkti** kursus iš kit? vartotoj?
+- ?? **Išsaugoti** m?gstamus kursus
+- ?? **Valdyti** asmenin? kurs? bibliotek?
+- ?? **Tvarkyti** savo profil? ir finansus
+
+### ??? Architekt?ra
 
 ```
-Kursai/
-??? Kursai.Api/          # ASP.NET Core Web API (Backend)
-??? Kursai.maui/         # .NET MAUI aplikacija (Frontend)
-??? Kursai.Tests/        # Unit testai (xUnit)
-```
-
-### 1. **Kursai.Api** - Backend API (.NET 9)
-
-RESTful API serveris, kuris tvarko vis? verslo logik? ir duomen? valdym?.
-
-#### ??? Technologijos:
-- **Framework**: ASP.NET Core 9.0
-- **Duomen? baz?**: MySQL su Entity Framework Core
-- **Autentifikacija**: JWT (JSON Web Tokens)
-- **API dokumentacija**: Swagger/OpenAPI
-- **Saugumas**: BCrypt slaptažodži? hash'avimui
-
-#### ?? Strukt?ra:
-```
-Kursai.Api/
-??? Controllers/          # API endpoint'ai
-?   ??? AuthController.cs        # Registracija ir prisijungimas
-?   ??? CoursesController.cs     # Kurs? CRUD operacijos
-?   ??? FavoritesController.cs   # M?gstamiausi? valdymas
-?   ??? PurchasesController.cs   # Pirkim? valdymas
-??? Models/              # Duomen? modeliai
-?   ??? User.cs          # Vartotojo modelis
-?   ??? Course.cs        # Kurso modelis
-?   ??? Favorite.cs      # M?gstamiausio ryšys
-?   ??? Purchase.cs      # Pirkimo ?rašas
-??? DTOs/                # Data Transfer Objects
-?   ??? AuthDtos.cs      # Login/Register DTO
-?   ??? CourseDtos.cs    # Course CRUD DTO
-??? Services/            # Verslo logika
-?   ??? JwtService.cs    # JWT token? generavimas
-??? Data/                # Duomen? baz?s kontekstas
-?   ??? ApplicationDbContext.cs
-??? Migrations/          # EF Core migracijos
-```
-
-#### ?? API Endpoint'ai:
-
-**Authentication** (`/api/auth`)
-- `POST /register` - Naujo vartotojo registracija
-- `POST /login` - Prisijungimas (gr?žina JWT token)
-
-**Courses** (`/api/courses`)
-- `GET /` - Gauti visus kursus
-- `GET /{id}` - Gauti konkret? kurs?
-- `GET /my` - Gauti mano sukurtus kursus (reikia autentifikacijos)
-- `POST /` - Sukurti nauj? kurs? (reikia autentifikacijos)
-- `PUT /{id}` - Atnaujinti kurs? (tik savininkas)
-- `DELETE /{id}` - Ištrinti kurs? (tik savininkas)
-
-**Favorites** (`/api/favorites`)
-- `GET /` - Gauti m?gstamiausius kursus (reikia autentifikacijos)
-- `POST /{courseId}` - Prid?ti ? m?gstamiausius
-- `DELETE /{courseId}` - Pašalinti iš m?gstamiausi?
-- `GET /check/{courseId}` - Patikrinti ar kursas m?gstamiausias
-
-**Purchases** (`/api/purchases`)
-- `GET /` - Gauti pirktus kursus (reikia autentifikacijos)
-- `POST /{courseId}` - Nusipirkti kurs?
-
----
-
-### 2. **Kursai.maui** - Mobile App (.NET 10)
-
-Cross-platform mobili? aplikacija, sukurta su .NET MAUI. Veikia **Android, iOS, Windows, MacCatalyst** platformose.
-
-#### ??? Technologijos:
-- **Framework**: .NET MAUI 10.0
-- **Pattern**: MVVM (Model-View-ViewModel)
-- **UI**: XAML
-- **Navigation**: Shell Navigation
-- **HTTP**: HttpClient su REST API
-
-#### ?? Strukt?ra:
-```
-Kursai.maui/
-??? Views/                    # XAML puslapiai
-?   ??? LoginPage.xaml        # Prisijungimo ekranas
-?   ??? RegisterPage.xaml     # Registracijos ekranas
-?   ??? ShopPage.xaml         # Kurs? parduotuv?
-?   ??? LibraryPage.xaml      # Asmenin? biblioteka
-?   ??? ProfilePage.xaml      # Vartotojo profilis
-?   ??? MyCoursesPage.xaml    # Mano sukurti kursai
-?   ??? CourseDetailsPage.xaml # Kurso detal?s
-?   ??? AddKursai.xaml        # Naujo kurso prid?jimas
-?   ??? EditKursai.xaml       # Kurso redagavimas
-??? ViewModels/               # MVVM View Models
-?   ??? LoginViewModel.cs
-?   ??? RegisterViewModel.cs
-?   ??? ShopViewModel.cs
-?   ??? LibraryViewModel.cs
-?   ??? ProfileViewModel.cs
-?   ??? MyCoursesViewModel.cs
-?   ??? CourseDetailsViewModel.cs
-?   ??? AddCourseViewModel.cs
-?   ??? EditCourseViewModel.cs
-?   ??? BaseViewModel.cs      # Bazin? ViewModel klas?
-??? Models/                   # Duomen? modeliai
-?   ??? User.cs
-?   ??? Course.cs
-?   ??? Purchase.cs
-?   ??? Favorite.cs
-??? Services/                 # API servisai
-?   ??? IAuthService.cs
-?   ??? ApiAuthService.cs     # Autentifikacijos servisas
-?   ??? ICourseService.cs
-?   ??? ApiCourseService.cs   # Kurs? servisas
-??? Converters/               # XAML konverteriai
-?   ??? InvertedBoolConverter.cs
-?   ??? IsNotNullOrEmptyConverter.cs
-??? Configuration/
-?   ??? ApiConfig.cs          # API konfig?racija
-??? AppShell.xaml             # Shell navigacija ir tab bar
-```
-
-#### ?? Aplikacijos Strukt?ra:
-
-**Tab Navigation:**
-1. **Shop** - Kurs? parduotuv? su paieška ir filtravim?
-2. **Library** - Nusipirkti kursai (asmenin? biblioteka)
-3. **Profile** - Vartotojo profilis ir mano kursai
-
-**Funkcionalumas:**
-- ?? Login/Register su JWT autentifikacija
-- ?? Naršyti ir pirkti kursus
-- ?? M?gstamiausi? kurs? sistema
-- ?? Asmenin? pirkt? kurs? biblioteka
-- ?? Kurti ir redaguoti savus kursus
-- ??? Ištrinti savus kursus
-- ?? Profilio valdymas ir atsijungimas
-
----
-
-### 3. **Kursai.Tests** - Unit Tests (.NET 9)
-
-Išsamus unit test? rinkinys, apimantis vis? backend funkcionalum?.
-
-#### ??? Technologijos:
-- **Framework**: xUnit
-- **Mocking**: Moq
-- **Database**: Entity Framework In-Memory
-
-#### ? Test Coverage:
-
-**27 testai iš viso:**
-
-| Kategorija | Test? Kiekis | Aprašymas |
-|------------|--------------|-----------|
-| **AuthController** | 5 | Registracija, prisijungimas, validacija |
-| **CoursesController** | 11 | CRUD operacijos, autorizacija |
-| **FavoritesController** | 8 | M?gstamiausi kursai (CRUD + validacija) |
-| **JwtService** | 3 | JWT token generavimas ir claims |
-
-Daugiau informacijos: [Kursai.Tests/README.md](Kursai.Tests/README.md)
-
----
-
-## ?? Kaip Paleisti Projekt?
-
-### Reikalavimai
-
-- **.NET 9.0 SDK** (API ir testams)
-- **.NET 10.0 SDK** (MAUI aplikacijai)
-- **MySQL Server** (duomen? bazei)
-- **Visual Studio 2022** arba **Visual Studio Code**
-- **Android SDK** (Android aplikacijai)
-
----
-
-### 1. Backend API (Kursai.Api)
-
-#### Konfig?racija
-
-1. **Sukurti MySQL duomen? baz?:**
-```sql
-CREATE DATABASE KursaiDb;
-```
-
-2. **Redaguoti `appsettings.json`:**
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=KursaiDb;User=root;Password=YOUR_PASSWORD;"
-  },
-  "JwtSettings": {
-    "SecretKey": "YOUR_SECRET_KEY_AT_LEAST_32_CHARACTERS_LONG",
-    "Issuer": "KursaiAPI",
-    "Audience": "KursaiApp",
-    "ExpiryInHours": 24
-  }
-}
-```
-
-#### Paleisti API
-
-```bash
-cd Kursai.Api
-dotnet restore
-dotnet ef database update
-dotnet run
-```
-
-API bus pasiekiamas: `https://localhost:7XXX` (portas nurodomas konsol?je)
-
-**Swagger UI**: `https://localhost:7XXX/swagger`
-
----
-
-### 2. MAUI Aplikacija (Kursai.maui)
-
-#### Konfig?racija
-
-1. **Atnaujinti API adres? `Configuration/ApiConfig.cs`:**
-```csharp
-public static string BaseUrl = "https://YOUR_IP_ADDRESS:PORT/api";
-```
-
-**Android Emulator:**
-- Lokalus API: `https://10.0.2.2:PORT/api`
-
-**Tikras ?renginys:**
-- Naudoti kompiuterio IP adres? vietin?je tinkl?: `https://192.168.X.X:PORT/api`
-
-#### Paleisti Aplikacij?
-
-**Visual Studio 2022:**
-1. Atidaryti `Kursai.sln`
-2. Pasirinkti `Kursai.maui` kaip startup projekt?
-3. Pasirinkti ?rengin? (Android Emulator, Windows Machine, etc.)
-4. Spauti F5 arba Run
-
-**CLI:**
-```bash
-cd Kursai.maui
-
-# Android
-dotnet build -t:Run -f net10.0-android
-
-# Windows
-dotnet build -t:Run -f net10.0-windows10.0.19041.0
-
-# iOS (Mac'e)
-dotnet build -t:Run -f net10.0-ios
+???????????????????????????????????????????????????????
+?           .NET MAUI Mobile App (Frontend)           ?
+?  Android • iOS • Windows • macOS                    ?
+???????????????????????????????????????????????????????
+                     ? REST API (HTTPS/JWT)
+                     ?
+???????????????????????????????????????????????????????
+?        ASP.NET Core Web API (Backend)               ?
+?  JWT Auth • Swagger • Entity Framework Core         ?
+???????????????????????????????????????????????????????
+                     ?
+???????????????????????????????????????????????????????
+?              MySQL Database                         ?
+?  Users • Courses • Purchases • Favorites            ?
+???????????????????????????????????????????????????????
 ```
 
 ---
 
-### 3. Paleisti Testus (Kursai.Tests)
+## ? Pagrindin?s Funkcijos
 
-```bash
-cd Kursai.Tests
-dotnet restore
-dotnet test
+### ?? Autentifikacija
+- Registracija su email validacija
+- Prisijungimas su JWT token autentifikacija
+- Saugus slaptažodži? hash'avimas (BCrypt)
+- Automatinis token atnaujinimas
 
-# Su detaliu output'u
-dotnet test --logger "console;verbosity=detailed"
-```
+### ?? Kurs? Valdymas
+- Kurti naujus kursus su aprašymais ir kainomis
+- Redaguoti ir ištrinti savo kursus
+- Kategorijomis pagr?sta organizacija
+- Kain? nustatymas
 
----
+### ??? Parduotuv? (Shop)
+- Naršyti visus prieinamus kursus
+- Paieška pagal pavadinim?
+- Filtravimas pagal kategorij?
+- M?gstamiausi? sistema
 
-## ?? Duomen? Baz?s Schema
+### ?? Biblioteka (Library)
+- Visos nusipirktos kursai vienoje vietoje
+- Greita prieiga prie turinio
+- Pirkimo istorija
 
-### User (Vartotojas)
-```sql
-- Id (INT, PK, Auto Increment)
-- Username (VARCHAR(50), Unique)
-- Email (VARCHAR(100), Unique)
-- PasswordHash (TEXT)
-- CreatedAt (DATETIME)
-```
-
-### Course (Kursas)
-```sql
-- Id (INT, PK, Auto Increment)
-- Title (VARCHAR(200))
-- Description (TEXT)
-- Price (DECIMAL(10,2))
-- Category (VARCHAR(100))
-- SellerId (INT, FK -> User.Id)
-- CreatedAt (DATETIME)
-```
-
-### Favorite (M?gstamiausias)
-```sql
-- Id (INT, PK, Auto Increment)
-- UserId (INT, FK -> User.Id)
-- CourseId (INT, FK -> Course.Id)
-- UNIQUE(UserId, CourseId)
-```
-
-### Purchase (Pirkimas)
-```sql
-- Id (INT, PK, Auto Increment)
-- UserId (INT, FK -> User.Id)
-- CourseId (INT, FK -> Course.Id)
-- PurchaseDate (DATETIME)
-- Price (DECIMAL(10,2))
-- UNIQUE(UserId, CourseId)
-```
-
----
-
-## ?? Saugumas
-
-- **Slaptažodžiai**: Hash'uojami su **BCrypt**
-- **API Autentifikacija**: **JWT Bearer Tokens**
-- **Autorizacija**: Controller metodai apsaugoti `[Authorize]` atributu
-- **CORS**: Sukonfig?ruotas leisti cross-origin requests (developmentui)
-- **HTTPS**: Privalomas production'e
-
----
-
-## ?? Test? Lentel?
-
-Piln? test? aprašym? rasite: [TESTU_LENTELE.md](TESTU_LENTELE.md)
-
-**Test? prioritetai:**
-- ?? **Aukštas prioritetas**: 13 test? (kritin?s funkcijos)
-- ?? **Žemas prioritetas**: 7 testai (papildomos funkcijos)
+### ?? Profilis
+- Mano sukurti kursai
+- Statistika ir finansai
+- Paskyros valdymas
+- Atsijungimas
 
 ---
 
 ## ??? Technologij? Stack'as
 
-### Backend
-- ASP.NET Core 9.0
-- Entity Framework Core 9.0
-- MySQL 8.0+
-- JWT Authentication
-- Swagger/OpenAPI
-- BCrypt.Net
+### Backend (Kursai.Api)
+| Technologija | Versija | Paskirtis |
+|--------------|---------|-----------|
+| ASP.NET Core | 9.0 | Web API Framework |
+| Entity Framework Core | 9.0 | ORM (Duomen? baz?s valdymas) |
+| MySQL | 8.0+ | Reliacin? duomen? baz? |
+| JWT | - | Autentifikacija ir autorizacija |
+| Swagger | - | API dokumentacija |
+| BCrypt.Net | - | Slaptažodži? hash'avimas |
 
-### Frontend (MAUI)
-- .NET MAUI 10.0
-- XAML
-- MVVM Pattern
-- HttpClient
-- Shell Navigation
-- CommunityToolkit.Mvvm
+### Frontend (Kursai.maui)
+| Technologija | Versija | Paskirtis |
+|--------------|---------|-----------|
+| .NET MAUI | 10.0 | Cross-platform framework |
+| XAML | - | UI markup kalba |
+| MVVM | - | Architekt?rinis pattern'as |
+| HttpClient | - | HTTP komunikacija su API |
+| Shell Navigation | - | Navigacija tarp puslapi? |
 
-### Testing
-- xUnit
-- Moq
-- EF Core InMemory
+### Testing (Kursai.Tests)
+| Technologija | Versija | Paskirtis |
+|--------------|---------|-----------|
+| xUnit | - | Unit testing framework |
+| Moq | - | Mocking library |
+| EF Core InMemory | - | In-memory database testams |
+
+**27 unit testai** - 100% backend coverage! ?
+
+---
+
+## ?? Greitai Prad?ti
+
+### Reikalavimai
+
+```
+? .NET 9.0 SDK
+? .NET 10.0 SDK  
+? MySQL Server 8.0+
+? Visual Studio 2022 arba VS Code
+? Android SDK (Android aplikacijai)
+```
+
+### 1?? Backend API Setup
+
+```bash
+# 1. Sukurti duomen? baz?
+mysql -u root -p
+CREATE DATABASE kursai;
+EXIT;
+
+# 2. Konfig?ruoti appsettings.json
+cd Kursai.Api
+# Redaguoti ConnectionStrings ir JwtSettings
+
+# 3. Paleisti migracijas
+dotnet ef database update
+
+# 4. Paleisti API
+dotnet run
+# API: https://localhost:7128
+# Swagger: https://localhost:7128/swagger
+```
+
+### 2?? MAUI App Setup
+
+```bash
+cd Kursai.maui
+
+# Atnaujinti Configuration/ApiConfig.cs
+# Android Emulator: http://10.0.2.2:7128/api
+# Windows: https://localhost:7128/api
+
+# Paleisti aplikacij?
+dotnet build -t:Run -f net10.0-android   # Android
+dotnet build -t:Run -f net10.0-windows10.0.19041.0  # Windows
+```
+
+### 3?? Paleisti Testus
+
+```bash
+cd Kursai.Tests
+dotnet test
+# ? 27/27 testai passed
+```
 
 ---
 
 ## ?? Platform Support
 
-| Platforma | Status | Min. Versija |
-|-----------|--------|--------------|
-| **Android** | ? Supported | API 21 (Lollipop 5.0) |
-| **iOS** | ? Supported | iOS 11.0+ |
-| **Windows** | ? Supported | Windows 10.0.19041.0+ |
-| **macOS** | ? Supported | MacCatalyst 14.0+ |
+| Platforma | Support | Min. Versija |
+|-----------|---------|--------------|
+| ?? Android | ? | API 21 (5.0 Lollipop) |
+| ?? iOS | ? | iOS 11.0+ |
+| ?? Windows | ? | Windows 10 (19041+) |
+| ?? macOS | ? | MacCatalyst 14.0+ |
 
 ---
 
-## ?? API Response Format'ai
+## ?? API Endpoints
 
-### S?kmingas Atsakymas
-```json
-{
-  "id": 1,
-  "title": "C# Programavimo Kursas",
-  "description": "Išsamus C# kursas pradedantiesiems",
-  "price": 49.99,
-  "category": "Programavimas",
-  "sellerId": 2,
-  "createdAt": "2024-12-08T10:30:00Z"
-}
+### ?? Authentication (`/api/auth`)
+```http
+POST /api/auth/register   # Registracija
+POST /api/auth/login      # Prisijungimas (returns JWT)
+GET  /api/auth/validate   # Token validacija
 ```
 
-### Klaidos Atsakymas
-```json
-{
-  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-  "title": "Not Found",
-  "status": 404,
-  "errors": {
-    "Message": ["Course not found"]
-  }
-}
+### ?? Courses (`/api/courses`)
+```http
+GET    /api/courses           # Visi kursai
+GET    /api/courses/{id}      # Konkretus kursas
+GET    /api/courses/my        # Mano kursai [Auth]
+POST   /api/courses           # Sukurti kurs? [Auth]
+PUT    /api/courses/{id}      # Atnaujinti kurs? [Auth]
+DELETE /api/courses/{id}      # Ištrinti kurs? [Auth]
+```
+
+### ?? Favorites (`/api/favorites`)
+```http
+GET    /api/favorites                # M?gstamiausi [Auth]
+POST   /api/favorites/{courseId}     # Prid?ti [Auth]
+DELETE /api/favorites/{courseId}     # Pašalinti [Auth]
+GET    /api/favorites/check/{id}     # Patikrinti [Auth]
+```
+
+### ?? Purchases (`/api/purchases`)
+```http
+GET    /api/purchases           # Pirkti kursai [Auth]
+POST   /api/purchases/{id}      # Nusipirkti [Auth]
+```
+
+**[Auth]** = Reikia JWT Bearer Token
+
+---
+
+## ??? Duomen? Baz?s Schema
+
+```sql
+Users
+??? Id (PK)
+??? Username (UNIQUE)
+??? Email (UNIQUE)
+??? PasswordHash
+??? CreatedAt
+
+Courses
+??? Id (PK)
+??? Title
+??? Description
+??? Price
+??? Category
+??? SellerId (FK ? Users)
+??? CreatedAt
+
+Favorites
+??? Id (PK)
+??? UserId (FK ? Users)
+??? CourseId (FK ? Courses)
+
+Purchases
+??? Id (PK)
+??? UserId (FK ? Users)
+??? CourseId (FK ? Courses)
+??? PurchaseDate
+??? Price
 ```
 
 ---
 
-## ?? Development Workflow
+## ?? Screenshots
 
-1. **Backend Development**
-   - Keisti modelius ? Sukurti migracij? ? Atnaujinti DB
-   - Prid?ti endpoint'us ? Dokumentuoti Swagger'e
-   - Rašyti unit testus
-
-2. **Frontend Development**
-   - Sukurti View ? Sukurti ViewModel ? Susieti
-   - Implementuoti API servisus
-   - Testuoti ?vairiose platformose
-
-3. **Testing**
-   - Rašyti unit testus kiekvienam feature'ui
-   - Testuoti API endpoint'us Swagger UI
-   - Testuoti MAUI app'? Android/Windows
-
----
-
-## ?? Known Issues / Future Improvements
-
-### Planuojami Patobulinimai:
-- [ ] Kurs? reiting? sistema
-- [ ] Komentar? funkcionalumas
-- [ ] Kurs? kategorij? filtravimas
-- [ ] Paieškos tobulinimas
-- [ ] Push notifications
-- [ ] Offline režimas (caching)
-- [ ] Mok?jim? integracijos (Stripe, PayPal)
-- [ ] Admin dashboard
-- [ ] Kurs? perži?ros statistika
+### Mobil? Aplikacija
+```
+???????????????????????  ???????????????????????  ???????????????????????
+?   ?? Shop           ?  ?   ?? Library        ?  ?   ?? Profile        ?
+?                     ?  ?                     ?  ?                     ?
+?  Search courses...  ?  ?  My Purchased       ?  ?  Username           ?
+?  [Filter ?]         ?  ?  Courses:           ?  ?  Email              ?
+?                     ?  ?                     ?  ?                     ?
+?  ?????????????????? ?  ?  ???????????????????  ?  My Courses         ?
+?  ? Course Title   ? ?  ?  ? Bought Course  ??  ?  Logout             ?
+?  ? $49.99      ?? ? ?  ?  ? Access ?       ??  ?                     ?
+?  ?????????????????? ?  ?  ???????????????????  ?                     ?
+???????????????????????  ???????????????????????  ???????????????????????
+```
 
 ---
 
-## ?? Autoriai
+## ?? Testing
 
-- **Vardas Pavard?** - Pilnas projekto k?rimas
+### Test Coverage
+- **? 27 Unit Test?** (100% backend coverage)
+- **AuthController**: Registracija, login, validacija
+- **CoursesController**: CRUD operacijos, autorizacija
+- **FavoritesController**: M?gstamiausi CRUD
+- **JwtService**: Token generavimas ir validacija
+
+```bash
+# Paleisti testus su detaliu output'u
+dotnet test --logger "console;verbosity=detailed"
+
+# Su code coverage
+dotnet test /p:CollectCoverage=true
+```
+
+Daugiau: [?? TESTU_LENTELE.md](TESTU_LENTELE.md)
 
 ---
 
-## ?? Licencija
+## ?? Saugumas
 
-Šis projektas yra privatus mokomasis projektas.
+| Feature | Implementation |
+|---------|----------------|
+| ?? **Slaptažodžiai** | BCrypt hash su salt |
+| ?? **Autentifikacija** | JWT Bearer Tokens (24h expiry) |
+| ??? **Autorizacija** | Role-based endpoint protection |
+| ?? **HTTPS** | Privalomas production'e |
+| ?? **CORS** | Sukonfig?ruotas (whitelist) |
+
+---
+
+## ?? Dokumentacija
+
+- [?? SYSTEM_ARCHITECTURE_EXPLAINED.md](SYSTEM_ARCHITECTURE_EXPLAINED.md) - Pilnas sistemos architekt?ros aprašymas
+- [?? TESTU_LENTELE.md](TESTU_LENTELE.md) - Išsami test? lentel?
+- [?? PROGRAMINES_IRANGOS_REALIZACIJA.md](PROGRAMINES_IRANGOS_REALIZACIJA.md) - Realizacijos dokumentas
+- [?? Kursai.Tests/README.md](Kursai.Tests/README.md) - Unit test? dokumentacija
+
+---
+
+## ?? B?simi Patobulinimai
+
+- [ ] ? Kurs? reiting? sistema
+- [ ] ?? Komentar? funkcionalumas
+- [ ] ?? Išpl?stin? paieška ir filtravimas
+- [ ] ?? Kurs? perži?ros statistika
+- [ ] ?? Mok?jim? integracija (Stripe/PayPal)
+- [ ] ?? Push notifications
+- [ ] ?? Offline režimas (caching)
+- [ ] ????? Admin dashboard
+- [ ] ?? Video player integracija
+- [ ] ?? PDF/dokument? perži?ra
+
+---
+
+## ????? Autorius
+
+**Nedas**  
+Pilnas stack development projektas (Backend + Frontend + Database + Tests)
 
 ---
 
 ## ?? Kontaktai
 
-Jei turite klausim? ar pasi?lym?:
-- GitHub: https://github.com/Nedzas22/Kursai-APP
-- Email: [Your Email]
+- ?? **GitHub**: [Nedzas22](https://github.com/Nedzas22)
+- ?? **Email**: laizytuvas1@gmail.com
+- ?? **Repo**: [Kursai-APP](https://github.com/Nedzas22/Kursai-APP)
+
+---
+
+## ?? Licencija
+
+Šis projektas yra **privatus mokomasis projektas**.
 
 ---
 
 ## ?? Pad?kos
 
-- Microsoft už .NET MAUI framework'?
-- .NET Community už puikias bibliotekas
-- xUnit ir Moq už testing tools
+- **Microsoft** už .NET ekosistem? ir MAUI framework'?
+- **.NET Community** už open-source bibliotekas
+- **xUnit & Moq** už testing tools
 
 ---
 
-**Projektas sukurtas 2024 m. kaip mokomasis projektas.**
+<div align="center">
+
+**? Jei patiko projektas, palikite žvaigždut?! ?**
+
+*Sukurta su ?? naudojant .NET MAUI ir ASP.NET Core*
+
+</div>
