@@ -1,6 +1,6 @@
-# ?? Kursai - Kurs? Prekybos Platforma
+# ?? Kursai - Course Trading Platform
 
-> **Cross-platform kurs? pardavimo ir valdymo sistema, sukurta su .NET MAUI ir ASP.NET Core**
+> **Cross-platform course selling and management system built with .NET MAUI and ASP.NET Core**
 
 [![.NET](https://img.shields.io/badge/.NET-9%20%7C%2010-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![MAUI](https://img.shields.io/badge/MAUI-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/apps/maui)
@@ -9,16 +9,16 @@
 
 ---
 
-## ?? Apie Projekt?
+## ?? About The Project
 
-**Kursai** yra pilnai funkcionali kurs? prekybos platforma, leidžianti vartotojams:
-- ?? **Kurti** ir parduoti savo kursus
-- ?? **Pirkti** kursus iš kit? vartotoj?
-- ?? **Išsaugoti** m?gstamus kursus
-- ?? **Valdyti** asmenin? kurs? bibliotek?
-- ?? **Tvarkyti** savo profil? ir finansus
+**Kursai** is a fully functional course trading platform that allows users to:
+- ?? **Create** and sell their own courses
+- ?? **Purchase** courses from other users
+- ?? **Save** favorite courses
+- ?? **Manage** personal course library
+- ?? **Handle** profile and finances
 
-### ??? Architekt?ra
+### ??? Architecture
 
 ```
 ???????????????????????????????????????????????????????
@@ -34,105 +34,118 @@
                      ?
 ???????????????????????????????????????????????????????
 ?              MySQL Database                         ?
-?  Users • Courses • Purchases • Favorites            ?
+?  Users • Courses • Purchases • Favorites • Ratings  ?
 ???????????????????????????????????????????????????????
 ```
 
 ---
 
-## ? Pagrindin?s Funkcijos
+## ? Key Features
 
-### ?? Autentifikacija
-- Registracija su email validacija
-- Prisijungimas su JWT token autentifikacija
-- Saugus slaptažodži? hash'avimas (BCrypt)
-- Automatinis token atnaujinimas
+### ?? Authentication
+- Registration with email validation
+- Login with JWT token authentication
+- Secure password hashing (BCrypt)
+- Automatic token refresh
 
-### ?? Kurs? Valdymas
-- Kurti naujus kursus su aprašymais ir kainomis
-- Redaguoti ir ištrinti savo kursus
-- Kategorijomis pagr?sta organizacija
-- Kain? nustatymas
+### ?? Course Management
+- Create new courses with descriptions and prices
+- Edit and delete your own courses
+- Category-based organization
+- Price setting and management
 
-### ??? Parduotuv? (Shop)
-- Naršyti visus prieinamus kursus
-- Paieška pagal pavadinim?
-- Filtravimas pagal kategorij?
-- M?gstamiausi? sistema
+### ??? Shop
+- Browse all available courses
+- Search by title
+- Filter by category
+- Favorites system
 
-### ?? Biblioteka (Library)
-- Visos nusipirktos kursai vienoje vietoje
-- Greita prieiga prie turinio
-- Pirkimo istorija
+### ?? Library
+- All purchased courses in one place
+- Quick access to content
+- Purchase history
 
-### ?? Profilis
-- Mano sukurti kursai
-- Statistika ir finansai
-- Paskyros valdymas
-- Atsijungimas
+### ?? Profile
+- My created courses
+- Statistics and finances
+- Account management
+- Logout functionality
+
+### ? Rating System
+- Rate purchased courses (1-5 stars)
+- View average ratings
+- Rating statistics
+- User reviews
+
+### ?? Download Feature
+- Download course materials
+- PDF and document support
+- File management
+- Offline access
 
 ---
 
-## ??? Technologij? Stack'as
+## ??? Technology Stack
 
 ### Backend (Kursai.Api)
-| Technologija | Versija | Paskirtis |
+| Technology | Version | Purpose |
 |--------------|---------|-----------|
 | ASP.NET Core | 9.0 | Web API Framework |
-| Entity Framework Core | 9.0 | ORM (Duomen? baz?s valdymas) |
-| MySQL | 8.0+ | Reliacin? duomen? baz? |
-| JWT | - | Autentifikacija ir autorizacija |
-| Swagger | - | API dokumentacija |
-| BCrypt.Net | - | Slaptažodži? hash'avimas |
+| Entity Framework Core | 9.0 | ORM (Database management) |
+| MySQL | 8.0+ | Relational database |
+| JWT | - | Authentication and authorization |
+| Swagger | - | API documentation |
+| BCrypt.Net | - | Password hashing |
+| SendGrid | - | Email service |
 
 ### Frontend (Kursai.maui)
-| Technologija | Versija | Paskirtis |
+| Technology | Version | Purpose |
 |--------------|---------|-----------|
 | .NET MAUI | 10.0 | Cross-platform framework |
-| XAML | - | UI markup kalba |
-| MVVM | - | Architekt?rinis pattern'as |
-| HttpClient | - | HTTP komunikacija su API |
-| Shell Navigation | - | Navigacija tarp puslapi? |
+| XAML | - | UI markup language |
+| MVVM | - | Architectural pattern |
+| HttpClient | - | HTTP communication with API |
+| Shell Navigation | - | Navigation between pages |
 
 ### Testing (Kursai.Tests)
-| Technologija | Versija | Paskirtis |
+| Technology | Version | Purpose |
 |--------------|---------|-----------|
 | xUnit | - | Unit testing framework |
 | Moq | - | Mocking library |
-| EF Core InMemory | - | In-memory database testams |
+| EF Core InMemory | - | In-memory database for tests |
 
-**27 unit testai** - 100% backend coverage! ?
+**27 unit tests** - 100% backend coverage! ?
 
 ---
 
-## ?? Greitai Prad?ti
+## ?? Quick Start
 
-### Reikalavimai
+### Prerequisites
 
 ```
 ? .NET 9.0 SDK
 ? .NET 10.0 SDK  
 ? MySQL Server 8.0+
-? Visual Studio 2022 arba VS Code
-? Android SDK (Android aplikacijai)
+? Visual Studio 2022 or VS Code
+? Android SDK (for Android app)
 ```
 
 ### 1?? Backend API Setup
 
 ```bash
-# 1. Sukurti duomen? baz?
+# 1. Create database
 mysql -u root -p
 CREATE DATABASE kursai;
 EXIT;
 
-# 2. Konfig?ruoti appsettings.json
+# 2. Configure appsettings.json
 cd Kursai.Api
-# Redaguoti ConnectionStrings ir JwtSettings
+# Edit ConnectionStrings and JwtSettings
 
-# 3. Paleisti migracijas
+# 3. Run migrations
 dotnet ef database update
 
-# 4. Paleisti API
+# 4. Start API
 dotnet run
 # API: https://localhost:7128
 # Swagger: https://localhost:7128/swagger
@@ -143,28 +156,28 @@ dotnet run
 ```bash
 cd Kursai.maui
 
-# Atnaujinti Configuration/ApiConfig.cs
+# Update Configuration/ApiConfig.cs
 # Android Emulator: http://10.0.2.2:7128/api
 # Windows: https://localhost:7128/api
 
-# Paleisti aplikacij?
+# Run application
 dotnet build -t:Run -f net10.0-android   # Android
 dotnet build -t:Run -f net10.0-windows10.0.19041.0  # Windows
 ```
 
-### 3?? Paleisti Testus
+### 3?? Run Tests
 
 ```bash
 cd Kursai.Tests
 dotnet test
-# ? 27/27 testai passed
+# ? 27/27 tests passed
 ```
 
 ---
 
 ## ?? Platform Support
 
-| Platforma | Support | Min. Versija |
+| Platform | Support | Min. Version |
 |-----------|---------|--------------|
 | ?? Android | ? | API 21 (5.0 Lollipop) |
 | ?? iOS | ? | iOS 11.0+ |
@@ -177,40 +190,48 @@ dotnet test
 
 ### ?? Authentication (`/api/auth`)
 ```http
-POST /api/auth/register   # Registracija
-POST /api/auth/login      # Prisijungimas (returns JWT)
-GET  /api/auth/validate   # Token validacija
+POST /api/auth/register   # Registration
+POST /api/auth/login      # Login (returns JWT)
+GET  /api/auth/validate   # Token validation
 ```
 
 ### ?? Courses (`/api/courses`)
 ```http
-GET    /api/courses           # Visi kursai
-GET    /api/courses/{id}      # Konkretus kursas
-GET    /api/courses/my        # Mano kursai [Auth]
-POST   /api/courses           # Sukurti kurs? [Auth]
-PUT    /api/courses/{id}      # Atnaujinti kurs? [Auth]
-DELETE /api/courses/{id}      # Ištrinti kurs? [Auth]
+GET    /api/courses           # All courses
+GET    /api/courses/{id}      # Specific course
+GET    /api/courses/my        # My courses [Auth]
+POST   /api/courses           # Create course [Auth]
+PUT    /api/courses/{id}      # Update course [Auth]
+DELETE /api/courses/{id}      # Delete course [Auth]
 ```
 
 ### ?? Favorites (`/api/favorites`)
 ```http
-GET    /api/favorites                # M?gstamiausi [Auth]
-POST   /api/favorites/{courseId}     # Prid?ti [Auth]
-DELETE /api/favorites/{courseId}     # Pašalinti [Auth]
-GET    /api/favorites/check/{id}     # Patikrinti [Auth]
+GET    /api/favorites                # Favorites [Auth]
+POST   /api/favorites/{courseId}     # Add [Auth]
+DELETE /api/favorites/{courseId}     # Remove [Auth]
+GET    /api/favorites/check/{id}     # Check [Auth]
 ```
 
 ### ?? Purchases (`/api/purchases`)
 ```http
-GET    /api/purchases           # Pirkti kursai [Auth]
-POST   /api/purchases/{id}      # Nusipirkti [Auth]
+GET    /api/purchases           # Purchased courses [Auth]
+POST   /api/purchases/{id}      # Purchase [Auth]
 ```
 
-**[Auth]** = Reikia JWT Bearer Token
+### ? Ratings (`/api/ratings`)
+```http
+GET    /api/ratings/course/{courseId}     # Course ratings
+POST   /api/ratings                        # Add rating [Auth]
+PUT    /api/ratings/{id}                   # Update rating [Auth]
+DELETE /api/ratings/{id}                   # Delete rating [Auth]
+```
+
+**[Auth]** = Requires JWT Bearer Token
 
 ---
 
-## ??? Duomen? Baz?s Schema
+## ??? Database Schema
 
 ```sql
 Users
@@ -226,6 +247,11 @@ Courses
 ??? Description
 ??? Price
 ??? Category
+??? ImageData (LONGBLOB)
+??? VideoUrl
+??? FileData (LONGBLOB)
+??? FileName
+??? FileSize
 ??? SellerId (FK ? Users)
 ??? CreatedAt
 
@@ -240,13 +266,21 @@ Purchases
 ??? CourseId (FK ? Courses)
 ??? PurchaseDate
 ??? Price
+
+Ratings
+??? Id (PK)
+??? UserId (FK ? Users)
+??? CourseId (FK ? Courses)
+??? RatingValue (1-5)
+??? Comment
+??? CreatedAt
 ```
 
 ---
 
 ## ?? Screenshots
 
-### Mobil? Aplikacija
+### Mobile Application
 ```
 ???????????????????????  ???????????????????????  ???????????????????????
 ?   ?? Shop           ?  ?   ?? Library        ?  ?   ?? Profile        ?
@@ -257,6 +291,7 @@ Purchases
 ?  ?????????????????? ?  ?  ???????????????????  ?  My Courses         ?
 ?  ? Course Title   ? ?  ?  ? Bought Course  ??  ?  Logout             ?
 ?  ? $49.99      ?? ? ?  ?  ? Access ?       ??  ?                     ?
+?  ? ?????      ? ?  ?  ? ????        ??  ?                     ?
 ?  ?????????????????? ?  ?  ???????????????????  ?                     ?
 ???????????????????????  ???????????????????????  ???????????????????????
 ```
@@ -266,68 +301,73 @@ Purchases
 ## ?? Testing
 
 ### Test Coverage
-- **? 27 Unit Test?** (100% backend coverage)
-- **AuthController**: Registracija, login, validacija
-- **CoursesController**: CRUD operacijos, autorizacija
-- **FavoritesController**: M?gstamiausi CRUD
-- **JwtService**: Token generavimas ir validacija
+- **? 27 Unit Tests** (100% backend coverage)
+- **AuthController**: Registration, login, validation
+- **CoursesController**: CRUD operations, authorization
+- **FavoritesController**: Favorites CRUD
+- **JwtService**: Token generation and validation
 
 ```bash
-# Paleisti testus su detaliu output'u
+# Run tests with detailed output
 dotnet test --logger "console;verbosity=detailed"
 
-# Su code coverage
+# With code coverage
 dotnet test /p:CollectCoverage=true
 ```
 
-Daugiau: [?? TESTU_LENTELE.md](TESTU_LENTELE.md)
+More: [?? TESTU_LENTELE.md](TESTU_LENTELE.md)
 
 ---
 
-## ?? Saugumas
+## ?? Security
 
 | Feature | Implementation |
 |---------|----------------|
-| ?? **Slaptažodžiai** | BCrypt hash su salt |
-| ?? **Autentifikacija** | JWT Bearer Tokens (24h expiry) |
-| ??? **Autorizacija** | Role-based endpoint protection |
-| ?? **HTTPS** | Privalomas production'e |
-| ?? **CORS** | Sukonfig?ruotas (whitelist) |
+| ?? **Passwords** | BCrypt hash with salt |
+| ?? **Authentication** | JWT Bearer Tokens (24h expiry) |
+| ??? **Authorization** | Role-based endpoint protection |
+| ?? **HTTPS** | Required in production |
+| ?? **CORS** | Configured (whitelist) |
 
 ---
 
-## ?? Dokumentacija
+## ?? Documentation
 
-- [?? SYSTEM_ARCHITECTURE_EXPLAINED.md](SYSTEM_ARCHITECTURE_EXPLAINED.md) - Pilnas sistemos architekt?ros aprašymas
-- [?? TESTU_LENTELE.md](TESTU_LENTELE.md) - Išsami test? lentel?
-- [?? PROGRAMINES_IRANGOS_REALIZACIJA.md](PROGRAMINES_IRANGOS_REALIZACIJA.md) - Realizacijos dokumentas
-- [?? Kursai.Tests/README.md](Kursai.Tests/README.md) - Unit test? dokumentacija
+- [?? SYSTEM_ARCHITECTURE_EXPLAINED.md](SYSTEM_ARCHITECTURE_EXPLAINED.md) - Complete system architecture description
+- [?? TESTU_LENTELE.md](TESTU_LENTELE.md) - Detailed test table
+- [?? PROGRAMINES_IRANGOS_REALIZACIJA.md](PROGRAMINES_IRANGOS_REALIZACIJA.md) - Implementation document
+- [?? Kursai.Tests/README.md](Kursai.Tests/README.md) - Unit tests documentation
+- [? RATING_SYSTEM_COMPLETE.md](RATING_SYSTEM_COMPLETE.md) - Rating system guide
+- [?? DOWNLOAD_FEATURE_DOCUMENTATION.md](DOWNLOAD_FEATURE_DOCUMENTATION.md) - Download feature guide
+- [?? SENDGRID_INTEGRATION_GUIDE.md](SENDGRID_INTEGRATION_GUIDE.md) - Email integration guide
 
 ---
 
-## ?? B?simi Patobulinimai
+## ?? Future Improvements
 
-- [ ] ? Kurs? reiting? sistema
-- [ ] ?? Komentar? funkcionalumas
-- [ ] ?? Išpl?stin? paieška ir filtravimas
-- [ ] ?? Kurs? perži?ros statistika
-- [ ] ?? Mok?jim? integracija (Stripe/PayPal)
+- [x] ? Course rating system
+- [x] ?? Download course materials
+- [x] ?? Email notifications (SendGrid)
+- [ ] ?? Comment functionality
+- [ ] ?? Advanced search and filtering
+- [ ] ?? Course view statistics
+- [ ] ?? Payment integration (Stripe/PayPal)
 - [ ] ?? Push notifications
-- [ ] ?? Offline režimas (caching)
+- [ ] ?? Offline mode (caching)
 - [ ] ????? Admin dashboard
-- [ ] ?? Video player integracija
-- [ ] ?? PDF/dokument? perži?ra
+- [ ] ?? Video player integration
+- [ ] ?? PDF/document viewer
 
 ---
 
-## ????? Autorius
+## ????? Author
 
 **Nedas**  
-Pilnas stack development projektas (Backend + Frontend + Database + Tests)
+Full stack development project (Backend + Frontend + Database + Tests)
 
 ---
 
-## ?? Kontaktai
+## ?? Contact
 
 - ?? **GitHub**: [Nedzas22](https://github.com/Nedzas22)
 - ?? **Email**: laizytuvas1@gmail.com
@@ -335,24 +375,25 @@ Pilnas stack development projektas (Backend + Frontend + Database + Tests)
 
 ---
 
-## ?? Licencija
+## ?? License
 
-Šis projektas yra **privatus mokomasis projektas**.
+This project is a **private educational project**.
 
 ---
 
-## ?? Pad?kos
+## ?? Acknowledgments
 
-- **Microsoft** už .NET ekosistem? ir MAUI framework'?
-- **.NET Community** už open-source bibliotekas
-- **xUnit & Moq** už testing tools
+- **Microsoft** for .NET ecosystem and MAUI framework
+- **.NET Community** for open-source libraries
+- **xUnit & Moq** for testing tools
+- **SendGrid** for email services
 
 ---
 
 <div align="center">
 
-**? Jei patiko projektas, palikite žvaigždut?! ?**
+**? If you like this project, give it a star! ?**
 
-*Sukurta su ?? naudojant .NET MAUI ir ASP.NET Core*
+*Built with ?? using .NET MAUI and ASP.NET Core*
 
 </div>
