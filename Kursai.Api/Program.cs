@@ -81,7 +81,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Register services
+
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
